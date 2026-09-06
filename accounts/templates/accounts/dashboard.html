@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Student Dashboard
+{% endblock %}
+
+{% block content %}
+
+    <h1>Student Dashboard</h1>
+
+    <h2>Welcome, {{ request.user.username }}!</h2>
+
+    <p>You are logged in as a student.</p>
+
+    <h2>My Enrolled Courses</h2>
+
+    {% for enrollment in enrollments %}
+
+        <h3>{{ enrollment.course.title }}</h3>
+
+        <p>{{ enrollment.course.description }}</p>
+
+        <a href="{% url 'course_detail' enrollment.course.pk %}">
+            View Course
+        </a>
+
+        <hr>
+
+    {% empty %}
+
+        <p>You are not enrolled in any courses yet.</p>
+
+    {% endfor %}
+
+{% endblock %}

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Access Denied</title>
+</head>
+<body>
+
+    <h1>Course Access</h1>
+
+    <p>You are not enrolled in this course.</p>
+
+    <p>Please enroll first to access this lesson.</p>
+    <a href="{% url 'course_detail' course.pk %}">
+    Back to Course
+</a>
+
+</body>
+</html>

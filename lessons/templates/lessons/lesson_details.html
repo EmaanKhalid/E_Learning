@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Lesson Details
+{% endblock %}
+
+{% block content %}
+
+    <h1>Lesson Detail</h1>
+
+    <ul>
+        <li>
+            <h3>{{ lesson.title }}</h3>
+
+            <p>Content: {{ lesson.content }}</p>
+            <p>Order: {{ lesson.order }}</p>
+            <p>Course: {{ lesson.course }}</p>
+            <p>Created date: {{ lesson.created_at }}</p>
+            <p>Updated date: {{ lesson.updated_at }}</p>
+        </li>
+    </ul>
+
+    <a href="{% url 'course_detail' lesson.course.id %}">
+        ← Back to Course
+    </a>
+
+{% endblock %}
