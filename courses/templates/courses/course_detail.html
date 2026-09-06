@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Course Detail
+{% endblock %}
+
+{% block content %}
+
+    <h1>Course Detail</h1>
+
+    <ul>
+        <li>
+            <h3>{{ course.title }}</h3>
+
+            <p>Description: {{ course.description }}</p>
+            <p>Category: {{ course.category }}</p>
+            <p>Instructor: {{ course.instructor }}</p>
+            <p>Duration: {{ course.duration }}</p>
+            <p>Created date: {{ course.created_at }}</p>
+            <p>Updated date: {{ course.updated_at }}</p>
+        </li>
+    </ul>
+
+
+    {% if is_enrolled %}
+
+        <p>You are already enrolled in this course.</p>
+
+        <a href="{% url 'my_courses' %}">
+            View My Courses
+        </a>
+
+    {% else %}
+
+        <form method="POST" action="{% url 'enroll_course' course.pk %}">
+            {% csrf_token %}
+            <button type="submit">Enroll in Course</button>
+        </form>
+
+    {% endif %}
+
+
+    {% if is_enrolled %}
+
+        <h4>Lessons</h4>
+
+        <ul>
+
+            {% for lesson in lessons %}
+
+                <li>
+                    {{ lesson.order }}
+                    {{ lesson.title }}
+                </li>
+
+            {% empty %}
+
+                <li>No lessons available for this course.</li>
+
+            {% endfor %}
+
+        </ul>
+
+    {% else %}
+
+        <p>Please enroll in this course to access the lessons.</p>
+
+    {% endif %}
+
+
+    <a href="{% url 'course_list' %}">
+        Back to course
+    </a>
+
+{% endblock %}

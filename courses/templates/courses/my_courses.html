@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block title %}
+My Courses
+{% endblock %}
+
+{% block content %}
+
+    <h1>My Courses</h1>
+
+    {% for enrollment in enrollments %}
+
+        <h3>{{ enrollment.course.title }}</h3>
+
+        <p>Description: {{ enrollment.course.description }}</p>
+
+        <p>Instructor: {{ enrollment.course.instructor }}</p>
+
+        <a href="{% url 'course_detail' enrollment.course.pk %}">
+            View Course
+        </a>
+
+        <hr>
+
+    {% empty %}
+
+        <p>You are not enrolled in any courses yet.</p>
+
+    {% endfor %}
+
+{% endblock %}
