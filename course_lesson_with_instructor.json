@@ -1,0 +1,210 @@
+[
+{
+  "model": "auth.user",
+  "pk": 1,
+  "fields": {
+    "password": "pbkdf2_sha256$1500000$65onU0YERTgt9v06aukAJL$3Tl42hfTApPdnCY/ObKYCN3bz1RUo4yX6o8ojg2N92o=",
+    "last_login": "2026-09-07T08:24:35.402Z",
+    "is_superuser": true,
+    "username": "administrator",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2026-09-06T12:31:05.182Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "pk": 2,
+  "fields": {
+    "password": "pbkdf2_sha256$1500000$KV37Zoqg3uq0q902re1nlN$8nLsEy0EdAQnBTWYZgfw9ZA2YFeFo6V+5MEJPiACe74=",
+    "last_login": "2026-09-06T17:37:04.503Z",
+    "is_superuser": false,
+    "username": "Faizan",
+    "first_name": "",
+    "last_name": "",
+    "email": "faizan@gmail.com",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-09-06T17:36:11.693Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "courses.course",
+  "pk": 1,
+  "fields": {
+    "title": "Django Fundamentals",
+    "description": "Unlock the power of rapid web development with Django Fundamentals. This course introduces you to the essential building blocks used by top tech companies to launch robust web applications quickly and securely",
+    "category": "web",
+    "instructor": 1,
+    "duration": 10,
+    "created_at": "2026-09-06T12:37:49.874Z",
+    "updated_at": "2026-09-06T12:37:49.874Z"
+  }
+},
+{
+  "model": "courses.course",
+  "pk": 2,
+  "fields": {
+    "title": "Python Fundamentals",
+    "description": "Learn the foundational building blocks of Python. Master core syntax, data structures, and logic to kickstart your career in software development, data science, or web engineering.",
+    "category": "programming",
+    "instructor": 1,
+    "duration": 6,
+    "created_at": "2026-09-06T15:18:12.824Z",
+    "updated_at": "2026-09-06T15:18:12.824Z"
+  }
+},
+{
+  "model": "courses.course",
+  "pk": 3,
+  "fields": {
+    "title": "C++",
+    "description": "Build a powerful foundation in computer science with C++ Fundamentals. This course bridges the gap between high-level logic and low-level hardware control, teaching you how to write highly efficient, optimized, and scalable code from scratch.",
+    "category": "programming",
+    "instructor": 1,
+    "duration": 5,
+    "created_at": "2026-09-06T15:19:33.557Z",
+    "updated_at": "2026-09-06T15:19:33.557Z"
+  }
+},
+{
+  "model": "courses.course",
+  "pk": 4,
+  "fields": {
+    "title": "Spring Boot",
+    "description": "Master Spring Boot to build robust Java backend applications. Learn to create REST APIs, manage databases with JPA, and launch production-ready web services with ease.",
+    "category": "web",
+    "instructor": 1,
+    "duration": 8,
+    "created_at": "2026-09-06T15:21:02.548Z",
+    "updated_at": "2026-09-06T15:21:02.548Z"
+  }
+},
+{
+  "model": "lessons.lesson",
+  "pk": 1,
+  "fields": {
+    "course": 1,
+    "title": "Introduction to Django",
+    "content": "Learn what Django is and why it is used.",
+    "order": 1,
+    "created_at": "2026-09-06T12:38:48.570Z",
+    "updated_at": "2026-09-06T12:38:48.570Z"
+  }
+},
+{
+  "model": "lessons.lesson",
+  "pk": 2,
+  "fields": {
+    "course": 1,
+    "title": "Django Project Structure",
+    "content": "Learn about apps, projects, settings and URLs.",
+    "order": 2,
+    "created_at": "2026-09-06T12:39:31.232Z",
+    "updated_at": "2026-09-06T12:39:31.233Z"
+  }
+},
+{
+  "model": "lessons.lesson",
+  "pk": 3,
+  "fields": {
+    "course": 1,
+    "title": "Django Models",
+    "content": "Learn how Django models represent database tables.",
+    "order": 3,
+    "created_at": "2026-09-06T12:40:18.842Z",
+    "updated_at": "2026-09-06T12:40:18.842Z"
+  }
+},
+{
+  "model": "lessons.lesson",
+  "pk": 4,
+  "fields": {
+    "course": 2,
+    "title": "Python Syntax",
+    "content": "Master the core rules of Python Syntax. Learn the importance of indentation, variable declaration, and clean formatting to write your very first working programs.",
+    "order": 1,
+    "created_at": "2026-09-06T15:24:04.074Z",
+    "updated_at": "2026-09-06T15:24:04.074Z"
+  }
+},
+{
+  "model": "lessons.lesson",
+  "pk": 5,
+  "fields": {
+    "course": 2,
+    "title": "Python Keywords",
+    "content": "Learn the restricted vocabulary of Python Keywords. Master the reserved words that control code logic and discover how to avoid common variable naming conflicts.",
+    "order": 2,
+    "created_at": "2026-09-06T15:26:20.635Z",
+    "updated_at": "2026-09-06T15:26:20.635Z"
+  }
+},
+{
+  "model": "lessons.lesson",
+  "pk": 6,
+  "fields": {
+    "course": 2,
+    "title": "Python Variables",
+    "content": "Learn how programs store and remember data. Discover Python variables, the digital containers used to hold information like text, numbers, and logic.",
+    "order": 3,
+    "created_at": "2026-09-06T15:27:50.092Z",
+    "updated_at": "2026-09-06T15:27:50.092Z"
+  }
+},
+{
+  "model": "lessons.lesson",
+  "pk": 7,
+  "fields": {
+    "course": 4,
+    "title": "Introduction to Spring Boot",
+    "content": "Learn what is spring boot and its application",
+    "order": 1,
+    "created_at": "2026-09-06T15:30:47.937Z",
+    "updated_at": "2026-09-07T08:28:56.706Z"
+  }
+},
+{
+  "model": "lessons.lesson",
+  "pk": 8,
+  "fields": {
+    "course": 4,
+    "title": "Spring Boot Setup",
+    "content": "Learn how to setup spring boot and IntelliJ IDEA",
+    "order": 2,
+    "created_at": "2026-09-06T15:32:27.888Z",
+    "updated_at": "2026-09-07T08:29:47.766Z"
+  }
+},
+{
+  "model": "lessons.lesson",
+  "pk": 9,
+  "fields": {
+    "course": 3,
+    "title": "C++ Data Types",
+    "content": "Learn C++ Data Types to declare variables and manage system memory efficiently. Master primitive types, decimals, characters, and type modifiers.",
+    "order": 1,
+    "created_at": "2026-09-06T15:34:31.417Z",
+    "updated_at": "2026-09-06T15:34:31.417Z"
+  }
+},
+{
+  "model": "lessons.lesson",
+  "pk": 10,
+  "fields": {
+    "course": 3,
+    "title": "C++ Identifiers",
+    "content": "Learn the rules of C++ Identifiers to name your variables, functions, and classes correctly. Master naming restrictions, case sensitivity, and professional coding styles.",
+    "order": 2,
+    "created_at": "2026-09-06T15:36:14.632Z",
+    "updated_at": "2026-09-06T15:36:14.632Z"
+  }
+}
+]

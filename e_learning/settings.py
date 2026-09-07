@@ -24,9 +24,8 @@ load_dotenv(BASE_DIR / '.env')
 # See https://docs.djangoproject.com/en/6.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-'''SECRET_KEY = 'django-insecure-%h0x_optbtk+rb^9_)#e0c!pzqj&*1l96x6!9son#q8r6r!6(n'
 
-# SECURITY WARNING: don't run with debug turned on in production!
+'''# SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 ALLOWED_HOSTS = []'''
@@ -38,12 +37,21 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 
 DEBUG = os.environ.get('DEBUG', 'False') == 'True'
 
-ALLOWED_HOSTS = []
+'''ALLOWED_HOSTS = []
 
 if not DEBUG:
     ALLOWED_HOSTS = [
         os.environ.get('RENDER_EXTERNAL_HOSTNAME', '')
-    ]
+    ]'''
+
+ALLOWED_HOSTS = [
+    "elearningwebsite-production.up.railway.app",
+    "localhost",
+    "127.0.0.1",
+]
+CSRF_TRUSTED_ORIGINS = [
+    "https://elearningwebsite-production.up.railway.app",
+]
 
 
 # Application definition
@@ -102,18 +110,18 @@ WSGI_APPLICATION = 'e_learning.wsgi.application'
     }
 }'''
 
-DATABASES = {
+'''DATABASES = {
     'default': dj_database_url.config(
         default=f'sqlite:///{BASE_DIR / "db.sqlite3"}',
         conn_max_age=600
     )
-}
+}'''
 
-'''DATABASES = {
+DATABASES = {
     'default': dj_database_url.config(
         default=os.environ.get('DATABASE_URL'),
         conn_max_age=600)
-}'''
+}
 
 
 # Password validation
