@@ -4,28 +4,203 @@
 My Courses
 {% endblock %}
 
+
 {% block content %}
 
-    <h1>My Courses</h1>
+
+<!-- =========================
+     PAGE HEADER
+========================= -->
+
+<div class="page-header">
+
+    <div class="d-flex align-items-center">
+
+        <div class="page-header-icon">
+
+            <i class="bi bi-bookmark-check"></i>
+
+        </div>
+
+
+        <div>
+
+            <h1 class="page-title">
+                My Courses
+            </h1>
+
+            <p class="page-subtitle">
+                Continue learning from the courses you have enrolled in.
+            </p>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- =========================
+     ENROLLED COURSES
+========================= -->
+
+<div class="row g-4">
+
 
     {% for enrollment in enrollments %}
 
-        <h3>{{ enrollment.course.title }}</h3>
 
-        <p>Description: {{ enrollment.course.description }}</p>
+        <div class="col-12 col-md-6 col-lg-4 col-xl-3">
 
-        <p>Instructor: {{ enrollment.course.instructor }}</p>
 
-        <a href="{% url 'course_detail' enrollment.course.pk %}">
-            View Course
-        </a>
+            <div class="course-card">
 
-        <hr>
+
+                <!-- Course Header -->
+
+                <div class="course-card-header">
+
+                    <i class="bi bi-book course-icon"></i>
+
+                </div>
+
+
+
+                <!-- Course Body -->
+
+                <div class="course-card-body">
+
+
+                    <!-- Category -->
+
+                    <span class="course-category">
+
+                        {{ enrollment.course.category }}
+
+                    </span>
+
+
+
+                    <!-- Course Title -->
+
+                    <h3 class="course-title">
+
+                        {{ enrollment.course.title }}
+
+                    </h3>
+
+
+
+                    <!-- Description -->
+
+                    <p class="course-description">
+
+                        {{ enrollment.course.description }}
+
+                    </p>
+
+
+
+                    <!-- Instructor -->
+
+                    <div class="course-info">
+
+                        <i class="bi bi-person"></i>
+
+                        <span>
+
+                            <strong>Instructor:</strong>
+
+                            {{ enrollment.course.instructor }}
+
+                        </span>
+
+                    </div>
+
+
+
+                    <!-- Duration -->
+
+                    <div class="course-info">
+
+                        <i class="bi bi-clock"></i>
+
+                        <span>
+
+                            <strong>Duration:</strong>
+
+                            {{ enrollment.course.duration }}
+
+                        </span>
+
+                    </div>
+
+
+
+                    <!-- View Course -->
+
+                    <a
+                        href="{% url 'course_detail' enrollment.course.pk %}"
+                        class="view-course-btn"
+                    >
+
+                        <i class="bi bi-play-circle me-2"></i>
+
+                        Continue Course
+
+                    </a>
+
+
+                </div>
+
+            </div>
+
+        </div>
+
 
     {% empty %}
 
-        <p>You are not enrolled in any courses yet.</p>
+
+        <!-- =========================
+             NO ENROLLED COURSES
+        ========================= -->
+
+        <div class="col-12">
+
+            <div class="empty-courses">
+
+                <i class="bi bi-book d-block"></i>
+
+                <h3>
+                    No Courses Yet
+                </h3>
+
+                <p>
+                    You are not enrolled in any courses yet.
+                </p>
+
+
+                <a
+                    href="{% url 'course_list' %}"
+                    class="btn btn-primary mt-2"
+                >
+
+                    <i class="bi bi-search me-2"></i>
+
+                    Browse Courses
+
+                </a>
+
+            </div>
+
+        </div>
+
 
     {% endfor %}
+
+
+</div>
+
 
 {% endblock %}

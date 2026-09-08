@@ -4,32 +4,343 @@
 Student Dashboard
 {% endblock %}
 
+
 {% block content %}
 
-    <h1>Student Dashboard</h1>
 
-    <h2>Welcome, {{ request.user.username }}!</h2>
+<!-- =========================
+     WELCOME SECTION
+========================= -->
 
-    <p>You are logged in as a student.</p>
+<div class="dashboard-welcome">
 
-    <h2>My Enrolled Courses</h2>
+    <div>
+
+        <h1>
+            Welcome back, {{ request.user.username }}! 👋
+        </h1>
+
+        <p>
+            Continue your learning journey and explore your enrolled courses.
+        </p>
+
+    </div>
+
+
+    <a
+        href="{% url 'course_list' %}"
+        class="dashboard-browse-btn"
+    >
+
+        <i class="bi bi-search me-2"></i>
+
+        Browse Courses
+
+    </a>
+
+</div>
+
+
+
+<!-- =========================
+     QUICK INFORMATION
+========================= -->
+
+<div class="row g-4 mb-5">
+
+
+    <!-- Enrolled Courses -->
+
+    <div class="col-12 col-md-6 col-lg-4">
+
+        <div class="dashboard-stat-card">
+
+            <div class="dashboard-stat-icon">
+
+                <i class="bi bi-bookmark-check"></i>
+
+            </div>
+
+
+            <div>
+
+                <h3>
+                    {{ enrollments|length }}
+                </h3>
+
+                <p>
+                    Enrolled Courses
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- Learning -->
+
+    <div class="col-12 col-md-6 col-lg-4">
+
+        <div class="dashboard-stat-card">
+
+            <div class="dashboard-stat-icon">
+
+                <i class="bi bi-mortarboard"></i>
+
+            </div>
+
+
+            <div>
+
+                <h3>
+                    Learning
+                </h3>
+
+                <p>
+                    Keep improving your skills
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- Courses -->
+
+    <div class="col-12 col-md-6 col-lg-4">
+
+        <div class="dashboard-stat-card">
+
+            <div class="dashboard-stat-icon">
+
+                <i class="bi bi-journals"></i>
+
+            </div>
+
+
+            <div>
+
+                <h3>
+                    Courses
+                </h3>
+
+                <p>
+                    Explore new courses
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- =========================
+     MY ENROLLED COURSES
+========================= -->
+
+<div class="page-header">
+
+    <div class="d-flex align-items-center">
+
+        <div class="page-header-icon">
+
+            <i class="bi bi-bookmark-check"></i>
+
+        </div>
+
+
+        <div>
+
+            <h2 class="page-title dashboard-section-title">
+
+                My Enrolled Courses
+
+            </h2>
+
+            <p class="page-subtitle">
+
+                Continue learning from your enrolled courses.
+
+            </p>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- =========================
+     COURSE GRID
+========================= -->
+
+<div class="row g-4">
+
 
     {% for enrollment in enrollments %}
 
-        <h3>{{ enrollment.course.title }}</h3>
 
-        <p>{{ enrollment.course.description }}</p>
+        <div class="col-12 col-md-6 col-lg-4 col-xl-3">
 
-        <a href="{% url 'course_detail' enrollment.course.pk %}">
-            View Course
-        </a>
 
-        <hr>
+            <div class="course-card">
+
+
+                <!-- Course Header -->
+
+                <div class="course-card-header">
+
+                    <i class="bi bi-book course-icon"></i>
+
+                </div>
+
+
+
+                <!-- Course Body -->
+
+                <div class="course-card-body">
+
+
+                    <!-- Category -->
+
+                    <span class="course-category">
+
+                        {{ enrollment.course.category }}
+
+                    </span>
+
+
+
+                    <!-- Course Title -->
+
+                    <h3 class="course-title">
+
+                        {{ enrollment.course.title }}
+
+                    </h3>
+
+
+
+                    <!-- Description -->
+
+                    <p class="course-description">
+
+                        {{ enrollment.course.description }}
+
+                    </p>
+
+
+
+                    <!-- Instructor -->
+
+                    <div class="course-info">
+
+                        <i class="bi bi-person"></i>
+
+                        <span>
+
+                            <strong>Instructor:</strong>
+
+                            {{ enrollment.course.instructor }}
+
+                        </span>
+
+                    </div>
+
+
+
+                    <!-- Duration -->
+
+                    <div class="course-info">
+
+                        <i class="bi bi-clock"></i>
+
+                        <span>
+
+                            <strong>Duration:</strong>
+
+                            {{ enrollment.course.duration }}
+
+                        </span>
+
+                    </div>
+
+
+
+                    <!-- Continue Course -->
+
+                    <a
+                        href="{% url 'course_detail' enrollment.course.pk %}"
+                        class="view-course-btn"
+                    >
+
+                        <i class="bi bi-play-circle me-2"></i>
+
+                        Continue Course
+
+                    </a>
+
+
+                </div>
+
+            </div>
+
+        </div>
+
 
     {% empty %}
 
-        <p>You are not enrolled in any courses yet.</p>
+
+        <!-- =========================
+             NO COURSES
+        ========================= -->
+
+        <div class="col-12">
+
+            <div class="empty-courses">
+
+                <i class="bi bi-book d-block"></i>
+
+                <h3>
+                    No Courses Yet
+                </h3>
+
+                <p>
+                    You are not enrolled in any courses yet.
+                </p>
+
+
+                <a
+                    href="{% url 'course_list' %}"
+                    class="btn btn-primary mt-2"
+                >
+
+                    <i class="bi bi-search me-2"></i>
+
+                    Browse Courses
+
+                </a>
+
+            </div>
+
+        </div>
+
 
     {% endfor %}
+
+
+</div>
+
 
 {% endblock %}

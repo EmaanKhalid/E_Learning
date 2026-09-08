@@ -1,34 +1,193 @@
 {% extends 'base.html' %}
 
 {% block title %}
-Course List
+Available Courses
 {% endblock %}
+
 
 {% block content %}
 
-    <h1>Available Courses</h1>
 
-    <ul>
-        {% for course in courses %}
+<!-- =========================
+     PAGE HEADER
+========================= -->
 
-            <li>
-                <h3>
-                    <a href="{% url 'course_detail' course.id %}">
+<div class="page-header">
+
+    <div class="d-flex align-items-center">
+
+        <div class="page-header-icon">
+
+            <i class="bi bi-book-half"></i>
+
+        </div>
+
+
+        <div>
+
+            <h1 class="page-title">
+                Available Courses
+            </h1>
+
+            <p class="page-subtitle">
+                Explore our wide range of courses and start learning today.
+            </p>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- =========================
+     COURSE GRID
+========================= -->
+
+<div class="row g-4">
+
+
+    {% for course in courses %}
+
+
+        <!-- Course -->
+
+        <div class="col-12 col-md-6 col-lg-4 col-xl-3">
+
+            <div class="course-card">
+
+
+                <!-- Course Header -->
+
+                <div class="course-card-header">
+
+                    <i class="bi bi-book course-icon"></i>
+
+                </div>
+
+
+
+                <!-- Course Body -->
+
+                <div class="course-card-body">
+
+
+                    <!-- Category -->
+
+                    <span class="course-category">
+
+                        {{ course.category }}
+
+                    </span>
+
+
+
+                    <!-- Course Title -->
+
+                    <h3 class="course-title">
+
                         {{ course.title }}
+
+                    </h3>
+
+
+
+                    <!-- Description -->
+
+                    <p class="course-description">
+
+                        {{ course.description }}
+
+                    </p>
+
+
+
+                    <!-- Instructor -->
+
+                    <div class="course-info">
+
+                        <i class="bi bi-person"></i>
+
+                        <span>
+
+                            <strong>Instructor:</strong>
+
+                            {{ course.instructor }}
+
+                        </span>
+
+                    </div>
+
+
+
+                    <!-- Duration -->
+
+                    <div class="course-info">
+
+                        <i class="bi bi-clock"></i>
+
+                        <span>
+
+                            <strong>Duration:</strong>
+
+                            {{ course.duration }}
+
+                        </span>
+
+                    </div>
+
+
+
+                    <!-- View Course -->
+
+                    <a
+                        href="{% url 'course_detail' course.id %}"
+                        class="view-course-btn"
+                    >
+
+                        <i class="bi bi-eye me-2"></i>
+
+                        View Course
+
                     </a>
+
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+    {% empty %}
+
+
+        <!-- No Courses -->
+
+        <div class="col-12">
+
+            <div class="empty-courses">
+
+                <i class="bi bi-journal-x d-block"></i>
+
+                <h3>
+                    No Courses Available
                 </h3>
 
-                <p>Description: {{ course.description }}</p>
-                <p>Category: {{ course.category }}</p>
-                <p>Instructor: {{ course.instructor }}</p>
-                <p>Duration: {{ course.duration }}</p>
-            </li>
+                <p>
+                    There are currently no courses available.
+                </p>
 
-        {% empty %}
+            </div>
 
-            <li>No course found.</li>
+        </div>
 
-        {% endfor %}
-    </ul>
+
+    {% endfor %}
+
+
+</div>
+
 
 {% endblock %}

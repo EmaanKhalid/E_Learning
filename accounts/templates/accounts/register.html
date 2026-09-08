@@ -4,45 +4,276 @@
 Register
 {% endblock %}
 
+
 {% block content %}
 
-    <h1>Register</h1>
+<div class="auth-page">
 
-    {% if messages %}
-        {% for message in messages %}
-            <p>{{ message }}</p>
-        {% endfor %}
-    {% endif %}
+    <div class="auth-card auth-register-card">
 
-    <form method="POST">
-        {% csrf_token %}
+        <!-- =========================
+             REGISTER HEADER
+        ========================== -->
 
-        <label>Username:</label>
-        <input type="text" name="username">
+        <div class="auth-header">
 
-        <br><br>
+            <div class="auth-icon">
 
-        <label>Email:</label>
-        <input type="email" name="email">
+                <i class="bi bi-person-plus-fill"></i>
 
-        <br><br>
+            </div>
 
-        <label>Password:</label>
-        <input type="password" name="password">
 
-        <br><br>
+            <h1>
+                Create Your Account
+            </h1>
 
-        <label>Confirm Password:</label>
-        <input type="password" name="confirm_password">
 
-        <br><br>
+            <p>
+                Join our learning platform and start learning today.
+            </p>
 
-        <button type="submit">Register</button>
-    </form>
+        </div>
 
-    <p>
-        Already have an account?
-        <a href="{% url 'login' %}">Login</a>
-    </p>
+
+
+        <!-- =========================
+             MESSAGES
+        ========================== -->
+
+        {% if messages %}
+
+            {% for message in messages %}
+
+                <div
+                    class="alert alert-info alert-dismissible fade show"
+                    role="alert"
+                >
+
+                    <i class="bi bi-info-circle me-2"></i>
+
+                    {{ message }}
+
+
+                    <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="alert"
+                        aria-label="Close"
+                    ></button>
+
+                </div>
+
+            {% endfor %}
+
+        {% endif %}
+
+
+
+        <!-- =========================
+             REGISTER FORM
+        ========================== -->
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+
+
+            <!-- =========================
+                 USERNAME
+            ========================== -->
+
+            <div class="auth-form-group">
+
+                <label for="username">
+
+                    Username
+
+                </label>
+
+
+                <div class="auth-input-wrapper">
+
+                    <i class="bi bi-person"></i>
+
+                    <input
+                        type="text"
+                        id="username"
+                        name="username"
+                        placeholder="Choose a username"
+                        autocomplete="username"
+                        value="{{ request.POST.username }}"
+                        required
+                    >
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =========================
+                 EMAIL
+            ========================== -->
+
+            <div class="auth-form-group">
+
+                <label for="email">
+
+                    Email Address
+
+                </label>
+
+
+                <div class="auth-input-wrapper">
+
+                    <i class="bi bi-envelope"></i>
+
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        placeholder="Enter your email address"
+                        autocomplete="email"
+                        value="{{ request.POST.email }}"
+                        required
+                    >
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =========================
+                 PASSWORD
+            ========================== -->
+
+            <div class="auth-form-group">
+
+                <label for="password">
+
+                    Password
+
+                </label>
+
+
+                <div class="auth-input-wrapper">
+
+                    <i class="bi bi-lock"></i>
+
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        placeholder="Create a password"
+                        autocomplete="new-password"
+                        minlength="8"
+                        pattern="(?=.*[^A-Za-z0-9]).{8,}"
+                        title="Password must be at least 8 characters long and contain at least one special character."
+                        required
+                    >
+
+                </div>
+
+
+                <small class="text-muted">
+
+                    <i class="bi bi-info-circle me-1"></i>
+
+                    At least 8 characters and one special character
+                    such as @, #, $, %, or !
+
+                </small>
+
+            </div>
+
+
+
+            <!-- =========================
+                 CONFIRM PASSWORD
+            ========================== -->
+
+            <div class="auth-form-group">
+
+                <label for="confirm_password">
+
+                    Confirm Password
+
+                </label>
+
+
+                <div class="auth-input-wrapper">
+
+                    <i class="bi bi-shield-lock"></i>
+
+                    <input
+                        type="password"
+                        id="confirm_password"
+                        name="confirm_password"
+                        placeholder="Enter your password again"
+                        autocomplete="new-password"
+                        required
+                    >
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =========================
+                 REGISTER BUTTON
+            ========================== -->
+
+            <button
+                type="submit"
+                class="auth-submit-btn"
+            >
+
+                <i class="bi bi-person-plus me-2"></i>
+
+                Create Account
+
+            </button>
+
+        </form>
+
+
+
+        <!-- =========================
+             REGISTER FOOTER
+        ========================== -->
+
+        <div class="auth-footer">
+
+            <p>
+
+                Already have an account?
+
+                <a href="{% url 'login' %}">
+                    Login
+                </a>
+
+            </p>
+
+
+            <a
+                href="{% url 'course_list' %}"
+                class="auth-back-link"
+            >
+
+                <i class="bi bi-arrow-left me-1"></i>
+
+                Browse Courses
+
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
 
 {% endblock %}

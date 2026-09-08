@@ -7,20 +7,75 @@ from enrollments.models import Enrollment
 
 # Create your views here.
 
+import re
+
+from django.shortcuts import render, redirect
+from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+from enrollments.models import Enrollment
+
+
+# Create your views here.
+
 def register(request):
+
     if request.method == 'POST':
+
         username = request.POST.get('username')
         email = request.POST.get('email')
         password = request.POST.get('password')
         confirm_password = request.POST.get('confirm_password')
 
+        if len(password) < 8:
+
+            messages.error(
+                request,
+                'Password must be at least 8 characters long.'
+            )
+
+            return render(
+                request,
+                'accounts/register.html'
+            )
+
+        if not re.search(r'[^A-Za-z0-9]', password):
+
+            messages.error(
+                request,
+                'Password must contain at least one special character.'
+            )
+
+            return render(
+                request,
+                'accounts/register.html'
+            )
+
         if password != confirm_password:
-            messages.error(request, 'Passwords do not match')
-            return render(request, 'accounts/register.html')
+
+            messages.error(
+                request,
+                'Passwords do not match.'
+            )
+
+            return render(
+                request,
+                'accounts/register.html'
+            )
+
 
         if User.objects.filter(username=username).exists():
-            messages.error(request, 'Username already exists')
-            return render(request, 'accounts/register.html')
+
+            messages.error(
+                request,
+                'Username already exists.'
+            )
+
+            return render(
+                request,
+                'accounts/register.html'
+            )
 
         User.objects.create_user(
             username=username,
@@ -28,9 +83,17 @@ def register(request):
             password=password
         )
 
+        messages.success(
+            request,
+            'Account created successfully. You can now login.'
+        )
+
         return redirect('login')
 
-    return render(request, 'accounts/register.html')
+    return render(
+        request,
+        'accounts/register.html'
+    )
 
 def login_view(request):
     if request.method == 'POST':

@@ -1,26 +1,1746 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>{% block title %}E-Learning Site{% endblock %}</title>
-</head>
-<body>
-    <nav>
-        <a href="{% url 'dashboard' %}">Dashboard</a> |
-        <a href="{% url 'course_list' %}">Courses</a> |
-        <a href="{% url 'my_courses' %}">My Courses</a> |
 
-        {% if user.is_authenticated %}
-            <a href="{% url 'logout' %}">Logout</a>
-        {% else %}
-            <a href="{% url 'login' %}">Login</a> |
-            <a href="{% url 'register' %}">Register</a>
-        {% endif %}
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>
+        {% block title %}E-Learning Site{% endblock %}
+    </title>
+
+
+    <!-- =========================
+         BOOTSTRAP 5 CSS
+    ========================== -->
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+
+    <!-- =========================
+         BOOTSTRAP ICONS
+    ========================== -->
+
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    >
+
+
+    <!-- =========================
+         CUSTOM CSS
+    ========================== -->
+
+    <style>
+
+        /* =================================
+           GENERAL
+        ================================= */
+
+        body {
+
+            background-color: #f8f9fa;
+
+            font-family: Arial, Helvetica, sans-serif;
+
+            color: #212529;
+
+        }
+
+
+        main {
+
+            min-height: 75vh;
+
+        }
+
+
+
+        /* =================================
+           NAVBAR
+        ================================= */
+
+        .navbar {
+
+            background: linear-gradient(
+                90deg,
+                #0d6efd,
+                #1769e0
+            ) !important;
+
+            padding: 12px 0;
+
+            box-shadow:
+                0 2px 8px rgba(0, 0, 0, 0.12);
+
+        }
+
+
+        .navbar-brand {
+
+            font-size: 24px;
+
+            font-weight: 700;
+
+            letter-spacing: 0.3px;
+
+        }
+
+
+        .navbar .nav-link {
+
+            color: rgba(255, 255, 255, 0.85) !important;
+
+            font-size: 16px;
+
+            padding: 9px 14px !important;
+
+            border-radius: 8px;
+
+            transition: 0.2s;
+
+        }
+
+
+        .navbar .nav-link:hover {
+
+            color: white !important;
+
+            background-color: rgba(255, 255, 255, 0.12);
+
+        }
+
+
+        .navbar .nav-link.active {
+
+            color: white !important;
+
+            background-color: rgba(255, 255, 255, 0.15);
+
+        }
+
+
+        .navbar-text {
+
+            color: white !important;
+
+        }
+
+
+
+        /* =================================
+           PAGE HEADER
+        ================================= */
+
+        .page-header {
+
+            margin-bottom: 30px;
+
+        }
+
+
+        .page-header-icon {
+
+            width: 58px;
+
+            height: 58px;
+
+            display: inline-flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            background-color: #0d6efd;
+
+            color: white;
+
+            border-radius: 12px;
+
+            font-size: 30px;
+
+            margin-right: 14px;
+
+        }
+
+
+        .page-title {
+
+            font-size: 42px;
+
+            font-weight: 700;
+
+            color: #1f2937;
+
+            margin-bottom: 5px;
+
+        }
+
+
+        .page-subtitle {
+
+            color: #6c757d;
+
+            font-size: 17px;
+
+            margin-bottom: 0;
+
+        }
+
+
+
+        /* =================================
+           COURSE CARDS
+        ================================= */
+
+        .course-card {
+
+            height: 100%;
+
+            background-color: white;
+
+            border: 1px solid #dee2e6;
+
+            border-radius: 14px;
+
+            overflow: hidden;
+
+            box-shadow:
+                0 3px 12px rgba(0, 0, 0, 0.08);
+
+            transition:
+                transform 0.2s ease,
+                box-shadow 0.2s ease;
+
+        }
+
+
+        .course-card:hover {
+
+            transform: translateY(-5px);
+
+            box-shadow:
+                0 8px 25px rgba(0, 0, 0, 0.13);
+
+        }
+
+
+
+        /* =================================
+           COURSE CARD HEADER
+        ================================= */
+
+        .course-card-header {
+
+            height: 145px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #0d6efd,
+                    #315ee8
+                );
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            color: white;
+
+            position: relative;
+
+            overflow: hidden;
+
+        }
+
+
+        .course-card-header::before {
+
+            content: "";
+
+            position: absolute;
+
+            width: 180px;
+
+            height: 180px;
+
+            border-radius: 50%;
+
+            background-color: rgba(255, 255, 255, 0.06);
+
+            top: -80px;
+
+            right: -50px;
+
+        }
+
+
+        .course-card-header::after {
+
+            content: "";
+
+            position: absolute;
+
+            width: 150px;
+
+            height: 150px;
+
+            border-radius: 50%;
+
+            background-color: rgba(255, 255, 255, 0.05);
+
+            bottom: -90px;
+
+            left: -40px;
+
+        }
+
+
+        .course-icon {
+
+            font-size: 62px;
+
+            position: relative;
+
+            z-index: 2;
+
+        }
+
+
+
+        /* =================================
+           COURSE CARD BODY
+        ================================= */
+
+        .course-card-body {
+
+            padding: 20px;
+
+        }
+
+
+        .course-category {
+
+            display: inline-block;
+
+            background-color: #e7f1ff;
+
+            color: #0d6efd;
+
+            font-size: 13px;
+
+            font-weight: 600;
+
+            padding: 5px 10px;
+
+            border-radius: 6px;
+
+            margin-bottom: 12px;
+
+        }
+
+
+        .course-title {
+
+            font-size: 21px;
+
+            font-weight: 700;
+
+            color: #1f2937;
+
+            margin-bottom: 12px;
+
+            line-height: 1.3;
+
+        }
+
+
+        .course-description {
+
+            color: #6c757d;
+
+            font-size: 14px;
+
+            line-height: 1.6;
+
+            min-height: 68px;
+
+            margin-bottom: 18px;
+
+        }
+
+
+
+        /* =================================
+           COURSE INFORMATION
+        ================================= */
+
+        .course-info {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+
+            margin-bottom: 12px;
+
+            color: #495057;
+
+            font-size: 14px;
+
+        }
+
+
+        .course-info i {
+
+            color: #0d6efd;
+
+            font-size: 18px;
+
+            width: 20px;
+
+            text-align: center;
+
+        }
+
+
+        .course-info strong {
+
+            color: #343a40;
+
+        }
+
+
+
+        /* =================================
+           VIEW COURSE BUTTON
+        ================================= */
+
+        .view-course-btn {
+
+            width: 100%;
+
+            margin-top: 12px;
+
+            padding: 11px 15px;
+
+            border-radius: 8px;
+
+            background-color: #0d6efd;
+
+            border: none;
+
+            color: white;
+
+            font-weight: 600;
+
+            text-decoration: none;
+
+            display: block;
+
+            text-align: center;
+
+            transition: 0.2s;
+
+        }
+
+
+        .view-course-btn:hover {
+
+            background-color: #0b5ed7;
+
+            color: white;
+
+        }
+
+
+
+        /* =================================
+           COURSE DETAIL CARD
+        ================================= */
+
+        .course-detail-card {
+
+            background-color: white;
+
+            border: 1px solid #dee2e6;
+
+            border-radius: 14px;
+
+            overflow: hidden;
+
+            box-shadow:
+                0 3px 12px rgba(0, 0, 0, 0.08);
+
+        }
+
+
+        .course-detail-body {
+
+            padding: 28px;
+
+        }
+
+
+        .course-description-detail {
+
+            margin-top: 20px;
+
+            margin-bottom: 24px;
+
+        }
+
+
+        .course-description-detail h5 {
+
+            margin-bottom: 10px;
+
+        }
+
+
+        .course-description-detail p {
+
+            color: #6c757d;
+
+            line-height: 1.7;
+
+            margin-bottom: 0;
+
+        }
+
+
+
+        /* =================================
+           LESSONS SECTION
+        ================================= */
+
+        .lessons-section {
+
+            background-color: white;
+
+            border: 1px solid #dee2e6;
+
+            border-radius: 14px;
+
+            padding: 26px;
+
+            box-shadow:
+                0 3px 12px rgba(0, 0, 0, 0.08);
+
+        }
+
+
+        .lessons-header {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 16px;
+
+            margin-bottom: 24px;
+
+        }
+
+
+        .lessons-icon {
+
+            width: 58px;
+
+            height: 58px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            background-color: #0d6efd;
+
+            color: white;
+
+            border-radius: 12px;
+
+            font-size: 28px;
+
+            flex-shrink: 0;
+
+        }
+
+
+        .lessons-header h2 {
+
+            margin: 0;
+
+            font-size: 30px;
+
+            font-weight: 600;
+
+            color: #212529;
+
+        }
+
+
+        .lessons-header p {
+
+            margin: 3px 0 0;
+
+            color: #6c757d;
+
+            font-size: 16px;
+
+        }
+
+
+
+        /* =================================
+           LESSON ITEM
+        ================================= */
+
+        .lesson-item {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            gap: 20px;
+
+            padding: 18px 20px;
+
+            margin-bottom: 14px;
+
+            background-color: #f8f9fa;
+
+            border: 1px solid #dee2e6;
+
+            border-radius: 10px;
+
+            transition: 0.2s ease;
+
+        }
+
+
+        .lesson-item:last-child {
+
+            margin-bottom: 0;
+
+        }
+
+
+        .lesson-item:hover {
+
+            border-color: #0d6efd;
+
+            background-color: #f5f9ff;
+
+            transform: translateY(-1px);
+
+        }
+
+
+        .lesson-number {
+
+            display: inline-block;
+
+            background-color: #0d6efd;
+
+            color: white;
+
+            font-size: 13px;
+
+            font-weight: 600;
+
+            padding: 5px 10px;
+
+            border-radius: 6px;
+
+            margin-bottom: 7px;
+
+        }
+
+
+        .lesson-content h5 {
+
+            margin: 0;
+
+            font-size: 18px;
+
+            font-weight: 500;
+
+            color: #212529;
+
+        }
+
+
+        .lesson-btn {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            background-color: #0d6efd;
+
+            color: white;
+
+            text-decoration: none;
+
+            padding: 10px 18px;
+
+            border-radius: 8px;
+
+            font-weight: 500;
+
+            white-space: nowrap;
+
+            transition: 0.2s;
+
+        }
+
+
+        .lesson-btn:hover {
+
+            background-color: #0b5ed7;
+
+            color: white;
+
+        }
+
+
+
+        /* =================================
+           EMPTY STATE
+        ================================= */
+
+        .empty-courses {
+
+            background-color: white;
+
+            border: 1px solid #dee2e6;
+
+            border-radius: 12px;
+
+            padding: 50px 20px;
+
+            text-align: center;
+
+            color: #6c757d;
+
+        }
+
+
+        .empty-courses i {
+
+            font-size: 50px;
+
+            color: #0d6efd;
+
+            margin-bottom: 15px;
+
+        }
+
+
+
+        /* =================================
+           FOOTER
+        ================================= */
+
+        footer {
+
+            background-color: #212529;
+
+            color: white;
+
+            margin-top: 60px;
+
+        }
+
+
+        .footer-title {
+
+            font-weight: 700;
+
+            font-size: 17px;
+
+        }
+
+
+        .footer-text {
+
+            color: #adb5bd;
+
+            margin-bottom: 0;
+
+        }
+
+
+
+        /* =================================
+           DASHBOARD
+        ================================= */
+
+        .dashboard-welcome {
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #0d6efd,
+                    #315ee8
+                );
+
+            color: white;
+
+            border-radius: 14px;
+
+            padding: 32px;
+
+            margin-bottom: 30px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            gap: 20px;
+
+            box-shadow:
+                0 5px 18px rgba(0, 0, 0, 0.12);
+
+        }
+
+
+        .dashboard-welcome h1 {
+
+            font-size: 32px;
+
+            font-weight: 700;
+
+            margin-bottom: 8px;
+
+        }
+
+
+        .dashboard-welcome p {
+
+            margin: 0;
+
+            color: rgba(255, 255, 255, 0.85);
+
+            font-size: 16px;
+
+        }
+
+
+        .dashboard-browse-btn {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            background-color: white;
+
+            color: #0d6efd;
+
+            text-decoration: none;
+
+            padding: 11px 18px;
+
+            border-radius: 8px;
+
+            font-weight: 600;
+
+            white-space: nowrap;
+
+            transition: 0.2s;
+
+        }
+
+
+        .dashboard-browse-btn:hover {
+
+            background-color: #f1f5ff;
+
+            color: #0b5ed7;
+
+        }
+
+
+
+        /* =================================
+           DASHBOARD STAT CARDS
+        ================================= */
+
+        .dashboard-stat-card {
+
+            background-color: white;
+
+            border: 1px solid #dee2e6;
+
+            border-radius: 12px;
+
+            padding: 22px;
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 18px;
+
+            box-shadow:
+                0 3px 12px rgba(0, 0, 0, 0.06);
+
+            transition: 0.2s;
+
+        }
+
+
+        .dashboard-stat-card:hover {
+
+            transform: translateY(-3px);
+
+            box-shadow:
+                0 7px 20px rgba(0, 0, 0, 0.10);
+
+        }
+
+
+        .dashboard-stat-icon {
+
+            width: 55px;
+
+            height: 55px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            background-color: #e7f1ff;
+
+            color: #0d6efd;
+
+            border-radius: 10px;
+
+            font-size: 25px;
+
+            flex-shrink: 0;
+
+        }
+
+
+        .dashboard-stat-card h3 {
+
+            margin: 0;
+
+            font-size: 24px;
+
+            font-weight: 700;
+
+            color: #212529;
+
+        }
+
+
+        .dashboard-stat-card p {
+
+            margin: 3px 0 0;
+
+            color: #6c757d;
+
+            font-size: 14px;
+
+        }
+
+
+        .dashboard-section-title {
+
+            font-size: 30px;
+
+        }
+
+
+
+        /* =================================
+           AUTHENTICATION PAGES
+        ================================= */
+
+        .auth-page {
+
+            min-height: calc(100vh - 180px);
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            padding: 40px 15px;
+
+        }
+
+
+        .auth-card {
+
+            width: 100%;
+
+            max-width: 450px;
+
+            background-color: white;
+
+            border: 1px solid #dee2e6;
+
+            border-radius: 14px;
+
+            padding: 38px;
+
+            box-shadow:
+                0 8px 30px rgba(0, 0, 0, 0.08);
+
+        }
+
+
+        .auth-register-card {
+
+            max-width: 500px;
+
+        }
+
+
+        /* Authentication Header */
+
+        .auth-header {
+
+            text-align: center;
+
+            margin-bottom: 30px;
+
+        }
+
+
+        .auth-icon {
+
+            width: 64px;
+
+            height: 64px;
+
+            margin: 0 auto 18px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            background-color: #e7f1ff;
+
+            color: #0d6efd;
+
+            border-radius: 14px;
+
+            font-size: 28px;
+
+        }
+
+
+        .auth-header h1 {
+
+            font-size: 27px;
+
+            font-weight: 700;
+
+            color: #212529;
+
+            margin-bottom: 8px;
+
+        }
+
+
+        .auth-header p {
+
+            color: #6c757d;
+
+            margin: 0;
+
+            font-size: 15px;
+
+        }
+
+
+
+        /* Authentication Form */
+
+        .auth-form-group {
+
+            margin-bottom: 20px;
+
+        }
+
+
+        .auth-form-group label {
+
+            display: block;
+
+            font-weight: 600;
+
+            color: #343a40;
+
+            margin-bottom: 7px;
+
+            font-size: 14px;
+
+        }
+
+
+        .auth-input-wrapper {
+
+            position: relative;
+
+        }
+
+
+        .auth-input-wrapper > i {
+
+            position: absolute;
+
+            left: 14px;
+
+            top: 50%;
+
+            transform: translateY(-50%);
+
+            color: #6c757d;
+
+            z-index: 2;
+
+        }
+
+
+        .auth-input-wrapper input {
+
+            width: 100%;
+
+            min-height: 46px;
+
+            padding: 10px 14px 10px 42px;
+
+            border: 1px solid #ced4da;
+
+            border-radius: 8px;
+
+            outline: none;
+
+            font-size: 15px;
+
+            transition: 0.2s;
+
+        }
+
+
+        .auth-input-wrapper input:focus {
+
+            border-color: #86b7fe;
+
+            box-shadow:
+                0 0 0 3px rgba(13, 110, 253, 0.12);
+
+        }
+
+
+        .auth-input-wrapper input::placeholder {
+
+            color: #adb5bd;
+
+        }
+
+
+
+        /* Authentication Errors */
+
+        .auth-error {
+
+            color: #dc3545;
+
+            font-size: 13px;
+
+            margin-top: 5px;
+
+        }
+
+
+        .auth-error ul {
+
+            margin: 0;
+
+            padding-left: 18px;
+
+        }
+
+
+        .auth-card .alert {
+
+            font-size: 14px;
+
+            margin-bottom: 20px;
+
+        }
+
+
+
+        /* Authentication Submit Button */
+
+        .auth-submit-btn {
+
+            width: 100%;
+
+            min-height: 47px;
+
+            border: none;
+
+            border-radius: 8px;
+
+            background-color: #0d6efd;
+
+            color: white;
+
+            font-weight: 600;
+
+            font-size: 15px;
+
+            cursor: pointer;
+
+            transition: 0.2s;
+
+        }
+
+
+        .auth-submit-btn:hover {
+
+            background-color: #0b5ed7;
+
+            transform: translateY(-1px);
+
+        }
+
+
+        .auth-submit-btn:active {
+
+            transform: translateY(0);
+
+        }
+
+
+
+        /* Authentication Footer */
+
+        .auth-footer {
+
+            text-align: center;
+
+            margin-top: 25px;
+
+            padding-top: 22px;
+
+            border-top: 1px solid #e9ecef;
+
+        }
+
+
+        .auth-footer p {
+
+            margin-bottom: 12px;
+
+            color: #6c757d;
+
+            font-size: 14px;
+
+        }
+
+
+        .auth-footer a {
+
+            color: #0d6efd;
+
+            text-decoration: none;
+
+            font-weight: 600;
+
+        }
+
+
+        .auth-footer a:hover {
+
+            text-decoration: underline;
+
+        }
+
+
+        .auth-back-link {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            font-size: 14px;
+
+            font-weight: 500 !important;
+
+            color: #6c757d !important;
+
+        }
+
+
+        .auth-back-link:hover {
+
+            color: #0d6efd !important;
+
+        }
+
+
+
+        /* =================================
+           RESPONSIVE DESIGN
+        ================================= */
+
+        @media (max-width: 768px) {
+
+            .page-title {
+
+                font-size: 32px;
+
+            }
+
+
+            .page-header-icon {
+
+                width: 50px;
+
+                height: 50px;
+
+                font-size: 25px;
+
+            }
+
+
+            .course-card-header {
+
+                height: 130px;
+
+            }
+
+
+            .dashboard-welcome {
+
+                align-items: flex-start;
+
+                flex-direction: column;
+
+            }
+
+
+            .dashboard-welcome h1 {
+
+                font-size: 26px;
+
+            }
+
+
+            .dashboard-browse-btn {
+
+                width: 100%;
+
+            }
+
+        }
+
+
+        @media (max-width: 576px) {
+
+            .course-detail-body {
+
+                padding: 20px;
+
+            }
+
+
+            .lessons-section {
+
+                padding: 20px;
+
+            }
+
+
+            .lessons-header h2 {
+
+                font-size: 24px;
+
+            }
+
+
+            .lesson-item {
+
+                align-items: flex-start;
+
+                flex-direction: column;
+
+            }
+
+
+            .lesson-btn {
+
+                width: 100%;
+
+            }
+
+
+            /* Authentication Mobile */
+
+            .auth-page {
+
+                padding: 25px 12px;
+
+                align-items: flex-start;
+
+            }
+
+
+            .auth-card {
+
+                padding: 28px 22px;
+
+                margin-top: 15px;
+
+            }
+
+
+            .auth-header h1 {
+
+                font-size: 24px;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+
+<body>
+
+
+    <!-- =================================
+         NAVIGATION BAR
+    ================================= -->
+
+    <nav class="navbar navbar-expand-lg navbar-dark">
+
+        <div class="container">
+
+
+            <!-- Logo -->
+
+            <a
+                class="navbar-brand"
+                href="{% url 'dashboard' %}"
+            >
+
+                <i class="bi bi-book-half me-2"></i>
+
+                E-Learning
+
+            </a>
+
+
+
+            <!-- Mobile Menu Button -->
+
+            <button
+                class="navbar-toggler"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#navbarContent"
+                aria-controls="navbarContent"
+                aria-expanded="false"
+                aria-label="Toggle navigation"
+            >
+
+                <span class="navbar-toggler-icon"></span>
+
+            </button>
+
+
+
+            <!-- Navigation Links -->
+
+            <div
+                class="collapse navbar-collapse"
+                id="navbarContent"
+            >
+
+
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
+
+                    <!-- Dashboard -->
+
+                    <li class="nav-item">
+
+                        <a
+                            class="nav-link"
+                            href="{% url 'dashboard' %}"
+                        >
+
+                            <i class="bi bi-speedometer2 me-1"></i>
+
+                            Dashboard
+
+                        </a>
+
+                    </li>
+
+
+
+                    <!-- Courses -->
+
+                    <li class="nav-item">
+
+                        <a
+                            class="nav-link"
+                            href="{% url 'course_list' %}"
+                        >
+
+                            <i class="bi bi-journals me-1"></i>
+
+                            Courses
+
+                        </a>
+
+                    </li>
+
+
+
+                    <!-- My Courses -->
+
+                    <li class="nav-item">
+
+                        <a
+                            class="nav-link"
+                            href="{% url 'my_courses' %}"
+                        >
+
+                            <i class="bi bi-bookmark-check me-1"></i>
+
+                            My Courses
+
+                        </a>
+
+                    </li>
+
+
+                </ul>
+
+
+
+                <!-- Right Side Navigation -->
+
+                <ul class="navbar-nav">
+
+
+                    {% if user.is_authenticated %}
+
+
+                        <!-- Username -->
+
+                        <li class="nav-item">
+
+                            <span class="nav-link">
+
+                                <i class="bi bi-person-circle me-1"></i>
+
+                                Welcome, {{ user.username }}
+
+                            </span>
+
+                        </li>
+
+
+
+                        <!-- Logout -->
+
+                        <li class="nav-item">
+
+                            <a
+                                class="nav-link"
+                                href="{% url 'logout' %}"
+                            >
+
+                                <i class="bi bi-box-arrow-right me-1"></i>
+
+                                Logout
+
+                            </a>
+
+                        </li>
+
+
+                    {% else %}
+
+
+                        <!-- Login -->
+
+                        <li class="nav-item">
+
+                            <a
+                                class="nav-link"
+                                href="{% url 'login' %}"
+                            >
+
+                                <i class="bi bi-box-arrow-in-right me-1"></i>
+
+                                Login
+
+                            </a>
+
+                        </li>
+
+
+
+                        <!-- Register -->
+
+                        <li class="nav-item">
+
+                            <a
+                                class="nav-link"
+                                href="{% url 'register' %}"
+                            >
+
+                                <i class="bi bi-person-plus me-1"></i>
+
+                                Register
+
+                            </a>
+
+                        </li>
+
+
+                    {% endif %}
+
+
+                </ul>
+
+
+            </div>
+
+        </div>
+
     </nav>
 
-    <hr>
 
-    {% block content %}
-    {% endblock %}
+
+    <!-- =================================
+         MAIN CONTENT
+    ================================= -->
+
+    <main class="container py-5">
+
+
+        <!-- Django Messages -->
+
+        {% if messages %}
+
+            {% for message in messages %}
+
+                <div
+                    class="alert alert-info alert-dismissible fade show"
+                    role="alert"
+                >
+
+                    <i class="bi bi-info-circle me-2"></i>
+
+                    {{ message }}
+
+
+                    <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="alert"
+                        aria-label="Close"
+                    ></button>
+
+                </div>
+
+            {% endfor %}
+
+        {% endif %}
+
+
+
+        <!-- Page Content -->
+
+        {% block content %}
+
+        {% endblock %}
+
+
+    </main>
+
+
+
+    <!-- =================================
+         FOOTER
+    ================================= -->
+
+    <footer class="py-4">
+
+        <div class="container text-center">
+
+            <div class="footer-title mb-1">
+
+                <i class="bi bi-book-half me-1"></i>
+
+                E-Learning Platform
+
+            </div>
+
+
+            <p class="footer-text">
+
+                Learn. Grow. Succeed.
+
+            </p>
+
+        </div>
+
+    </footer>
+
+
+
+    <!-- =================================
+         BOOTSTRAP JAVASCRIPT
+    ================================= -->
+
+    <script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    ></script>
+
+
 </body>
+
 </html>
+

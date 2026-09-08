@@ -1,75 +1,368 @@
 {% extends 'base.html' %}
 
 {% block title %}
-Course Detail
+{{ course.title }} - Course Details
 {% endblock %}
+
 
 {% block content %}
 
-    <h1>Course Detail</h1>
+<div class="row justify-content-center">
 
-    <ul>
-        <li>
-            <h3>{{ course.title }}</h3>
-
-            <p>Description: {{ course.description }}</p>
-            <p>Category: {{ course.category }}</p>
-            <p>Instructor: {{ course.instructor }}</p>
-            <p>Duration: {{ course.duration }}</p>
-            <p>Created date: {{ course.created_at }}</p>
-            <p>Updated date: {{ course.updated_at }}</p>
-        </li>
-    </ul>
+    <div class="col-12 col-lg-10">
 
 
-    {% if is_enrolled %}
+        <!-- =========================
+             COURSE DETAILS
+        ========================= -->
 
-        <p>You are already enrolled in this course.</p>
-
-        <a href="{% url 'my_courses' %}">
-            View My Courses
-        </a>
-
-    {% else %}
-
-        <form method="POST" action="{% url 'enroll_course' course.pk %}">
-            {% csrf_token %}
-            <button type="submit">Enroll in Course</button>
-        </form>
-
-    {% endif %}
+        <div class="course-detail-card mb-4">
 
 
-    {% if is_enrolled %}
+            <!-- Course Header -->
 
-        <h4>Lessons</h4>
+            <div class="course-card-header">
 
-        <ul>
+                <i class="bi bi-book-half course-icon"></i>
 
-            {% for lesson in lessons %}
-
-                <li>
-                    {{ lesson.order }}
-                    {{ lesson.title }}
-                </li>
-
-            {% empty %}
-
-                <li>No lessons available for this course.</li>
-
-            {% endfor %}
-
-        </ul>
-
-    {% else %}
-
-        <p>Please enroll in this course to access the lessons.</p>
-
-    {% endif %}
+            </div>
 
 
-    <a href="{% url 'course_list' %}">
-        Back to course
-    </a>
+            <!-- Course Body -->
+
+            <div class="course-detail-body">
+
+
+                <!-- Category -->
+
+                <span class="course-category">
+
+                    {{ course.category }}
+
+                </span>
+
+
+                <!-- Course Title -->
+
+                <h1 class="course-title fs-2">
+
+                    {{ course.title }}
+
+                </h1>
+
+
+                <!-- Description -->
+
+                <div class="course-description-detail">
+
+                    <h5 class="fw-bold">
+
+                        <i class="bi bi-file-text text-primary me-2"></i>
+
+                        Course Description
+
+                    </h5>
+
+                    <p>
+                        {{ course.description }}
+                    </p>
+
+                </div>
+
+
+                <!-- Course Information -->
+
+                <div class="row g-3 mb-4">
+
+
+                    <div class="col-md-6">
+
+                        <div class="course-info mb-0">
+
+                            <i class="bi bi-person"></i>
+
+                            <span>
+
+                                <strong>Instructor:</strong>
+
+                                {{ course.instructor }}
+
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="col-md-6">
+
+                        <div class="course-info mb-0">
+
+                            <i class="bi bi-clock"></i>
+
+                            <span>
+
+                                <strong>Duration:</strong>
+
+                                {{ course.duration }}
+
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="col-md-6">
+
+                        <div class="course-info mb-0">
+
+                            <i class="bi bi-calendar"></i>
+
+                            <span>
+
+                                <strong>Created:</strong>
+
+                                {{ course.created_at }}
+
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="col-md-6">
+
+                        <div class="course-info mb-0">
+
+                            <i class="bi bi-calendar-check"></i>
+
+                            <span>
+
+                                <strong>Updated:</strong>
+
+                                {{ course.updated_at }}
+
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+
+                <!-- =========================
+                     ENROLLMENT
+                ========================= -->
+
+                {% if is_enrolled %}
+
+                    <div class="alert alert-success mb-3">
+
+                        <i class="bi bi-check-circle-fill me-2"></i>
+
+                        You are already enrolled in this course.
+
+                    </div>
+
+
+                    <a
+                        href="{% url 'my_courses' %}"
+                        class="view-course-btn"
+                    >
+
+                        <i class="bi bi-bookmark-check me-2"></i>
+
+                        View My Courses
+
+                    </a>
+
+
+                {% else %}
+
+
+                    <form
+                        method="POST"
+                        action="{% url 'enroll_course' course.pk %}"
+                    >
+
+                        {% csrf_token %}
+
+                        <button
+                            type="submit"
+                            class="view-course-btn"
+                        >
+
+                            <i class="bi bi-plus-circle me-2"></i>
+
+                            Enroll in Course
+
+                        </button>
+
+                    </form>
+
+
+                {% endif %}
+
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =========================
+             LESSONS
+        ========================= -->
+
+        {% if is_enrolled %}
+
+            <div class="lessons-section">
+
+
+                <!-- Lessons Header -->
+
+                <div class="lessons-header">
+
+                    <div class="lessons-icon">
+
+                        <i class="bi bi-journal-text"></i>
+
+                    </div>
+
+
+                    <div>
+
+                        <h2>
+                            Course Lessons
+                        </h2>
+
+                        <p>
+                            Access the lessons included in this course.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- Lessons List -->
+
+                <div class="lessons-list">
+
+
+                    {% for lesson in lessons %}
+
+
+                        <div class="lesson-item">
+
+
+                            <!-- Lesson Information -->
+
+                            <div class="lesson-content">
+
+                                <span class="lesson-number">
+
+                                    Lesson {{ lesson.order }}
+
+                                </span>
+
+
+                                <h5>
+
+                                    {{ lesson.title }}
+
+                                </h5>
+
+                            </div>
+
+
+
+                            <!-- View Lesson -->
+
+                            <a
+                                href="{% url 'lesson_detail' lesson.pk %}"
+                                class="lesson-btn"
+                            >
+
+                                <i class="bi bi-play-circle me-2"></i>
+
+                                View Lesson
+
+                            </a>
+
+
+                        </div>
+
+
+                    {% empty %}
+
+
+                        <div class="empty-courses">
+
+                            <i class="bi bi-journal-x d-block"></i>
+
+                            <h4>
+                                No Lessons Available
+                            </h4>
+
+                            <p class="mb-0">
+                                Lessons for this course have not been added yet.
+                            </p>
+
+                        </div>
+
+
+                    {% endfor %}
+
+
+                </div>
+
+            </div>
+
+
+        {% else %}
+
+
+            <div class="alert alert-warning">
+
+                <i class="bi bi-lock-fill me-2"></i>
+
+                Please enroll in this course to access the lessons.
+
+            </div>
+
+
+        {% endif %}
+
+
+
+        <!-- =========================
+             BACK BUTTON
+        ========================= -->
+
+        <div class="mt-4">
+
+            <a
+                href="{% url 'course_list' %}"
+                class="btn btn-outline-primary"
+            >
+
+                <i class="bi bi-arrow-left me-2"></i>
+
+                Back to Courses
+
+            </a>
+
+        </div>
+
+
+    </div>
+
+</div>
 
 {% endblock %}
