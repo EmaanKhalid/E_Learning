@@ -1,14 +1,4 @@
-from django.shortcuts import render, redirect
-from django.contrib.auth.models import User
-from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.decorators import login_required
-from django.contrib import messages
-from enrollments.models import Enrollment
-
-# Create your views here.
-
 import re
-
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
@@ -19,7 +9,7 @@ from enrollments.models import Enrollment
 
 # Create your views here.
 
-def register(request):
+'''def register(request):
 
     if request.method == 'POST':
 
@@ -122,7 +112,7 @@ def login_view(request):
 
 def logout_view(request):
     logout(request)
-    return redirect('login')
+    return redirect('login')'''
 
 @login_required
 def dashboard(request):

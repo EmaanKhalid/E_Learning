@@ -1,0 +1,256 @@
+{% extends 'base.html' %}
+
+{% load socialaccount %}
+
+{% block title %}
+Login
+{% endblock %}
+
+
+{% block content %}
+
+<div class="auth-page">
+
+    <div class="auth-card">
+
+        <!-- =========================
+             LOGIN HEADER
+        ========================== -->
+
+        <div class="auth-header">
+
+            <div class="auth-icon">
+                <i class="bi bi-box-arrow-in-right"></i>
+            </div>
+
+            <h1>
+                Welcome Back
+            </h1>
+
+            <p>
+                Sign in to continue your learning journey.
+            </p>
+
+        </div>
+
+
+        <!-- =========================
+             MESSAGES
+        ========================== -->
+
+        {% if messages %}
+
+            {% for message in messages %}
+
+                <div
+                    class="alert alert-info alert-dismissible fade show"
+                    role="alert"
+                >
+
+                    <i class="bi bi-info-circle me-2"></i>
+
+                    {{ message }}
+
+                    <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="alert"
+                        aria-label="Close"
+                    ></button>
+
+                </div>
+
+            {% endfor %}
+
+        {% endif %}
+
+
+        <!-- =========================
+             LOGIN FORM
+        ========================== -->
+
+        <form method="POST" action="{% url 'account_login' %}">
+
+            {% csrf_token %}
+
+            {% if form.non_field_errors %}
+
+                <div class="alert alert-danger">
+
+                    {% for error in form.non_field_errors %}
+                        {{ error }}
+                    {% endfor %}
+
+                </div>
+
+            {% endif %}
+
+
+            <!-- Preserve next URL -->
+
+            {% if request.GET.next %}
+
+                <input
+                    type="hidden"
+                    name="next"
+                    value="{{ request.GET.next }}"
+                >
+
+            {% endif %}
+
+
+            <!-- =========================
+                 USERNAME
+            ========================== -->
+
+            <div class="auth-form-group">
+
+                <label>
+                    Username
+                </label>
+
+                <div class="auth-input-wrapper">
+
+                    <i class="bi bi-person"></i>
+
+                    {{ form.login }}
+
+                </div>
+
+                {% if form.login.errors %}
+
+                    <div class="text-danger small mt-1">
+
+                        {% for error in form.login.errors %}
+                            {{ error }}
+                        {% endfor %}
+
+                    </div>
+
+                {% endif %}
+
+            </div>
+
+
+            <!-- =========================
+                 PASSWORD
+            ========================== -->
+
+            <div class="auth-form-group">
+
+                <label>
+                    Password
+                </label>
+
+                <div class="auth-input-wrapper">
+
+                    <i class="bi bi-lock"></i>
+
+                    {{ form.password }}
+
+                </div>
+
+                {% if form.password.errors %}
+
+                    <div class="text-danger small mt-1">
+
+                        {% for error in form.password.errors %}
+                            {{ error }}
+                        {% endfor %}
+
+                    </div>
+
+                {% endif %}
+
+
+                <!-- Forgot Password -->
+
+                <div class="text-end mt-2">
+
+                    <a href="{% url 'account_reset_password' %}">
+                        Forgot your password?
+                    </a>
+
+                </div>
+
+            </div>
+
+
+            <!-- =========================
+                 LOGIN BUTTON
+            ========================== -->
+
+            <button
+                type="submit"
+                class="auth-submit-btn"
+            >
+
+                <i class="bi bi-box-arrow-in-right me-2"></i>
+
+                Login
+
+            </button>
+
+        </form>
+
+
+        <!-- =========================
+             GOOGLE LOGIN
+        ========================== -->
+
+        <div class="text-center my-3">
+
+            <span class="text-muted">
+                OR
+            </span>
+
+        </div>
+
+
+        <a
+            href="{% provider_login_url 'google' %}"
+            class="btn btn-outline-danger w-100"
+        >
+
+            <i class="bi bi-google me-2"></i>
+
+            Sign in with Google
+
+        </a>
+
+
+        <!-- =========================
+             LOGIN FOOTER
+        ========================== -->
+
+        <div class="auth-footer">
+
+            <p>
+
+                Don't have an account?
+
+                <a href="{% url 'account_signup' %}">
+                    Create an account
+                </a>
+
+            </p>
+
+
+            <a
+                href="{% url 'course_list' %}"
+                class="auth-back-link"
+            >
+
+                <i class="bi bi-arrow-left me-1"></i>
+
+                Browse Courses
+
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
