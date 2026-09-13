@@ -69,16 +69,41 @@ Login
              LOGIN FORM
         ========================== -->
 
-        <form method="POST" action="{% url 'account_login' %}">
+        <form
+            method="POST"
+            action="{% url 'account_login' %}"
+        >
 
             {% csrf_token %}
+
+
+            <!-- =========================
+                 PRESERVE REDIRECT URL
+            ========================== -->
+
+            {% if redirect_field_value %}
+
+                <input
+                    type="hidden"
+                    name="{{ redirect_field_name }}"
+                    value="{{ redirect_field_value }}"
+                >
+
+            {% endif %}
+
+
+            <!-- =========================
+                 FORM ERRORS
+            ========================== -->
 
             {% if form.non_field_errors %}
 
                 <div class="alert alert-danger">
 
                     {% for error in form.non_field_errors %}
+
                         {{ error }}
+
                     {% endfor %}
 
                 </div>
@@ -86,32 +111,19 @@ Login
             {% endif %}
 
 
-            <!-- Preserve next URL -->
-
-            {% if request.GET.next %}
-
-                <input
-                    type="hidden"
-                    name="next"
-                    value="{{ request.GET.next }}"
-                >
-
-            {% endif %}
-
-
             <!-- =========================
-                 USERNAME
+                 EMAIL ADDRESS
             ========================== -->
 
             <div class="auth-form-group">
 
-                <label>
-                    Username
+                <label for="id_login">
+                    Email Address
                 </label>
 
                 <div class="auth-input-wrapper">
 
-                    <i class="bi bi-person"></i>
+                    <i class="bi bi-envelope"></i>
 
                     {{ form.login }}
 
@@ -122,7 +134,9 @@ Login
                     <div class="text-danger small mt-1">
 
                         {% for error in form.login.errors %}
+
                             {{ error }}
+
                         {% endfor %}
 
                     </div>
@@ -138,7 +152,7 @@ Login
 
             <div class="auth-form-group">
 
-                <label>
+                <label for="id_password">
                     Password
                 </label>
 
@@ -147,14 +161,17 @@ Login
                     <i class="bi bi-lock"></i>
 
                     {{ form.password }}
-                     <button
-                            type="button"
-                            class="password-toggle"
-                            id="passwordToggle"
-                            aria-label="Show password"
-                        >
-                            <i class="bi bi-eye"></i>
-                        </button>
+
+                    <button
+                        type="button"
+                        class="password-toggle"
+                        id="passwordToggle"
+                        aria-label="Show password"
+                    >
+
+                        <i class="bi bi-eye"></i>
+
+                    </button>
 
                 </div>
 
@@ -163,7 +180,9 @@ Login
                     <div class="text-danger small mt-1">
 
                         {% for error in form.password.errors %}
+
                             {{ error }}
+
                         {% endfor %}
 
                     </div>
@@ -261,11 +280,19 @@ Login
 
 </div>
 
+
+<!-- =========================
+     PASSWORD TOGGLE
+========================== -->
+
 <script>
 
-    const passwordInput = document.getElementById("id_password");
+    const passwordInput =
+        document.getElementById("id_password");
 
-    const passwordToggle = document.getElementById("passwordToggle");
+    const passwordToggle =
+        document.getElementById("passwordToggle");
+
 
     passwordToggle.addEventListener("click", function () {
 

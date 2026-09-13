@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Change Email
+{% endblock %}
+
+{% block content %}
+
+<div class="auth-page">
+
+    <div class="auth-card">
+
+        <div class="auth-header">
+
+            <div class="auth-icon">
+                <i class="bi bi-envelope-fill"></i>
+            </div>
+
+            <h2>Change Email</h2>
+
+            <p>Update the email address associated with your account.</p>
+
+        </div>
+
+        {% if messages %}
+            {% for message in messages %}
+                <div class="auth-success">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+            <div class="auth-form-group">
+
+                <label for="email">
+                    New Email Address
+                </label>
+
+                <div class="auth-input-wrapper">
+
+                    <i class="bi bi-envelope"></i>
+
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        value="{{ user.email }}"
+                        placeholder="Enter your new email address"
+                        required
+                    >
+
+                </div>
+
+            </div>
+
+            <button type="submit" class="auth-submit-btn">
+
+                <i class="bi bi-check-circle-fill"></i>
+
+                Change Email
+
+            </button>
+
+        </form>
+
+        <div class="auth-footer">
+
+            <a href="{% url 'edit_profile' %}">
+                <i class="bi bi-arrow-left"></i>
+                Back to Account Settings
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

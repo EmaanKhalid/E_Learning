@@ -3,4 +3,21 @@ from .models import Course
 
 
 # Register your models here.
-admin.site.register(Course)
+@admin.register(Course)
+class CourseAdmin(admin.ModelAdmin):
+    list_display = (
+        "title",
+        "category",
+        "instructor",
+        "price",
+        "duration",
+        "created_at"
+    )
+    list_filter = (
+        "category",
+        "instructor"
+    )
+    search_fields = (
+        "title",
+        "description"
+    )

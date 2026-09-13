@@ -1,0 +1,184 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Edit Profile
+{% endblock %}
+
+{% block content %}
+
+<div class="auth-page">
+
+    <div class="auth-card">
+
+        <!-- =========================
+             PROFILE HEADER
+        ========================== -->
+
+        <div class="auth-header">
+
+            <div class="auth-icon">
+                <i class="bi bi-person-fill"></i>
+            </div>
+
+            <h2>Edit Profile</h2>
+
+            <p>
+                Update your personal information
+            </p>
+
+        </div>
+
+
+        <!-- =========================
+             MESSAGES
+        ========================== -->
+
+        {% if messages %}
+            {% for message in messages %}
+                <div class="auth-success">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+
+
+        <!-- =========================
+             PROFILE FORM
+        ========================== -->
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+
+            <!-- Username -->
+
+            <div class="auth-form-group">
+
+                <label for="username">
+                    Username
+                </label>
+
+                <div class="auth-input-wrapper">
+
+                    <i class="bi bi-person"></i>
+
+                    <input
+                        type="text"
+                        id="username"
+                        name="username"
+                        value="{{ user.username }}"
+                        placeholder="Enter your username"
+                        required
+                    >
+
+                </div>
+
+            </div>
+
+
+            <!-- First Name -->
+
+            <div class="auth-form-group">
+
+                <label for="first_name">
+                    First Name
+                </label>
+
+                <div class="auth-input-wrapper">
+
+                    <i class="bi bi-person"></i>
+
+                    <input
+                        type="text"
+                        id="first_name"
+                        name="first_name"
+                        value="{{ user.first_name }}"
+                        placeholder="Enter your first name"
+                    >
+
+                </div>
+
+            </div>
+
+
+            <!-- Last Name -->
+
+            <div class="auth-form-group">
+
+                <label for="last_name">
+                    Last Name
+                </label>
+
+                <div class="auth-input-wrapper">
+
+                    <i class="bi bi-person"></i>
+
+                    <input
+                        type="text"
+                        id="last_name"
+                        name="last_name"
+                        value="{{ user.last_name }}"
+                        placeholder="Enter your last name"
+                    >
+
+                </div>
+
+            </div>
+
+
+            <!-- Email - Read Only -->
+
+            <div class="auth-form-group">
+
+                <label for="email">
+                    Email Address
+                </label>
+
+                <div class="auth-input-wrapper">
+
+                    <i class="bi bi-envelope"></i>
+
+                    <input
+                        type="email"
+                        id="email"
+                        value="{{ user.email }}"
+                        readonly
+                    >
+
+                </div>
+
+            </div>
+
+
+            <!-- Submit -->
+
+            <button
+                type="submit"
+                class="auth-submit-btn"
+            >
+                <i class="bi bi-check-circle-fill"></i>
+                Save Changes
+            </button>
+
+        </form>
+
+
+        <!-- =========================
+             BACK LINK
+        ========================== -->
+
+        <div class="auth-footer">
+
+            <a href="{% url 'dashboard' %}">
+                <i class="bi bi-arrow-left"></i>
+                Back to Dashboard
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

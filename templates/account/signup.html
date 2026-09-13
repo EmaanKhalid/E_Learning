@@ -1,0 +1,486 @@
+{% extends 'base.html' %}
+
+{% load socialaccount %}
+
+{% block title %}
+Register
+{% endblock %}
+
+
+{% block content %}
+
+<div class="auth-page">
+
+    <div class="auth-card auth-register-card">
+
+        <!-- =========================
+             REGISTER HEADER
+        ========================== -->
+
+        <div class="auth-header">
+
+            <div class="auth-icon">
+
+                <i class="bi bi-person-plus-fill"></i>
+
+            </div>
+
+
+            <h1>
+                Create Your Account
+            </h1>
+
+
+            <p>
+                Join our learning platform and start learning today.
+            </p>
+
+        </div>
+
+
+
+        <!-- =========================
+             MESSAGES
+        ========================== -->
+
+        {% if messages %}
+
+            {% for message in messages %}
+
+                <div
+                    class="alert alert-info alert-dismissible fade show"
+                    role="alert"
+                >
+
+                    <i class="bi bi-info-circle me-2"></i>
+
+                    {{ message }}
+
+
+                    <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="alert"
+                        aria-label="Close"
+                    ></button>
+
+                </div>
+
+            {% endfor %}
+
+        {% endif %}
+
+
+
+        <!-- =========================
+             FORM ERRORS
+        ========================== -->
+
+        {% if form.non_field_errors %}
+
+            <div class="alert alert-danger">
+
+                <i class="bi bi-exclamation-triangle me-2"></i>
+
+                {% for error in form.non_field_errors %}
+
+                    {{ error }}
+
+                {% endfor %}
+
+            </div>
+
+        {% endif %}
+
+
+
+        <!-- =========================
+             GOOGLE SIGN UP
+        ========================== -->
+
+        <a
+            href="{% provider_login_url 'google' %}"
+            class="google-auth-btn"
+        >
+
+            <span class="google-icon">
+
+                <svg
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                >
+
+                    <path
+                        d="M21.35 12.27c0-.79-.07-1.55-.2-2.27H12v4.3h5.23a4.47 4.47 0 0 1-1.94 2.93v2.44h3.14c1.84-1.69 2.92-4.18 2.92-7.4z"
+                        fill="#4285F4"
+                    />
+
+                    <path
+                        d="M12 21.5c2.63 0 4.84-.87 6.45-2.36l-3.14-2.44c-.87.58-1.98.92-3.31.92-2.54 0-4.69-1.72-5.46-4.03H3.29v2.52A9.75 9.75 0 0 0 12 21.5z"
+                        fill="#34A853"
+                    />
+
+                    <path
+                        d="M6.54 13.59A5.86 5.86 0 0 1 6.23 12c0-.55.1-1.09.31-1.59V7.89H3.29A9.75 9.75 0 0 0 2.25 12c0 1.57.38 3.05 1.04 4.11l3.25-2.52z"
+                        fill="#FBBC05"
+                    />
+
+                    <path
+                        d="M12 6.38c1.43 0 2.71.49 3.72 1.45l2.79-2.79C16.84 3.46 14.63 2.5 12 2.5a9.75 9.75 0 0 0-8.71 5.39l3.25 2.52C7.31 8.1 9.46 6.38 12 6.38z"
+                        fill="#EA4335"
+                    />
+
+                </svg>
+
+            </span>
+
+
+            <span>
+                Continue with Google
+            </span>
+
+        </a>
+
+
+
+        <!-- =========================
+             DIVIDER
+        ========================== -->
+
+        <div class="auth-divider">
+
+            <span>OR</span>
+
+        </div>
+
+
+
+        <!-- =========================
+             REGISTER FORM
+        ========================== -->
+
+        <form
+            method="POST"
+            action="{% url 'account_signup' %}"
+        >
+
+            {% csrf_token %}
+
+
+            <!-- USERNAME -->
+
+            <div class="auth-form-group">
+
+                <label for="id_username">
+                    Username
+                </label>
+
+                <div class="auth-input-wrapper">
+
+                    <i class="bi bi-person"></i>
+
+                    <input
+                        type="text"
+                        id="id_username"
+                        name="username"
+                        placeholder="Choose a username"
+                        autocomplete="username"
+                        value="{{ form.username.value|default:'' }}"
+                        required
+                    >
+
+                </div>
+
+
+                {% if form.username.errors %}
+
+                    <div class="auth-error">
+
+                        {% for error in form.username.errors %}
+
+                            {{ error }}
+
+                        {% endfor %}
+
+                    </div>
+
+                {% endif %}
+
+            </div>
+
+
+
+            <!-- EMAIL -->
+
+            <div class="auth-form-group">
+
+                <label for="id_email">
+                    Email Address
+                </label>
+
+                <div class="auth-input-wrapper">
+
+                    <i class="bi bi-envelope"></i>
+
+                    <input
+                        type="email"
+                        id="id_email"
+                        name="email"
+                        placeholder="Enter your email address"
+                        autocomplete="email"
+                        value="{{ form.email.value|default:'' }}"
+                        required
+                    >
+
+                </div>
+
+
+                {% if form.email.errors %}
+
+                    <div class="auth-error">
+
+                        {% for error in form.email.errors %}
+
+                            {{ error }}
+
+                        {% endfor %}
+
+                    </div>
+
+                {% endif %}
+
+            </div>
+
+
+
+            <!-- PASSWORD -->
+
+            <div class="auth-form-group">
+
+                <label for="id_password1">
+                    Password
+                </label>
+
+                <div class="auth-input-wrapper">
+
+                    <i class="bi bi-lock"></i>
+
+                    <input
+                        type="password"
+                        id="id_password1"
+                        name="password1"
+                        placeholder="Create a password"
+                        autocomplete="new-password"
+                        required
+                    >
+
+                    <button
+                        type="button"
+                        class="password-toggle"
+                        onclick="togglePassword('id_password1', this)"
+                        aria-label="Show password"
+                    >
+
+                        <i class="bi bi-eye"></i>
+
+                    </button>
+
+                </div>
+
+
+                {% if form.password1.errors %}
+
+                    <div class="auth-error">
+
+                        {% for error in form.password1.errors %}
+
+                            {{ error }}
+
+                        {% endfor %}
+
+                    </div>
+
+                {% endif %}
+
+            </div>
+
+
+
+            <!-- CONFIRM PASSWORD -->
+
+            <div class="auth-form-group">
+
+                <label for="id_password2">
+                    Confirm Password
+                </label>
+
+                <div class="auth-input-wrapper">
+
+                    <i class="bi bi-shield-lock"></i>
+
+                    <input
+                        type="password"
+                        id="id_password2"
+                        name="password2"
+                        placeholder="Enter your password again"
+                        autocomplete="new-password"
+                        required
+                    >
+
+                    <button
+                        type="button"
+                        class="password-toggle"
+                        onclick="togglePassword('id_password2', this)"
+                        aria-label="Show password"
+                    >
+
+                        <i class="bi bi-eye"></i>
+
+                    </button>
+
+                </div>
+
+
+                {% if form.password2.errors %}
+
+                    <div class="auth-error">
+
+                        {% for error in form.password2.errors %}
+
+                            {{ error }}
+
+                        {% endfor %}
+
+                    </div>
+
+                {% endif %}
+
+            </div>
+
+
+
+            <!-- =========================
+                 PASSWORD REQUIREMENTS
+            ========================== -->
+
+            <div class="password-requirements">
+
+                <div class="password-requirements-title">
+
+                    <i class="bi bi-info-circle me-1"></i>
+
+                    Password requirements
+
+                </div>
+
+                <ul>
+
+                    <li>Use at least 8 characters</li>
+                    <li>Avoid using common passwords</li>
+                    <li>Don't use only numbers</li>
+
+                </ul>
+
+            </div>
+
+
+
+            <!-- =========================
+                 SUBMIT
+            ========================== -->
+
+            <button
+                type="submit"
+                class="auth-submit-btn"
+            >
+
+                <i class="bi bi-person-plus me-2"></i>
+
+                Create Account
+
+            </button>
+
+        </form>
+
+
+
+        <!-- =========================
+             REGISTER FOOTER
+        ========================== -->
+
+        <div class="auth-footer">
+
+            <p>
+
+                Already have an account?
+
+                <a href="{% url 'account_login' %}">
+                    Sign in
+                </a>
+
+            </p>
+
+
+            <a
+                href="{% url 'course_list' %}"
+                class="auth-back-link"
+            >
+
+                <i class="bi bi-arrow-left me-1"></i>
+
+                Browse Courses
+
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- =========================
+     PASSWORD TOGGLE
+========================== -->
+
+<script>
+
+function togglePassword(fieldId, button) {
+
+    const field = document.getElementById(fieldId);
+    const icon = button.querySelector("i");
+
+    if (field.type === "password") {
+
+        field.type = "text";
+
+        icon.classList.remove("bi-eye");
+        icon.classList.add("bi-eye-slash");
+
+        button.setAttribute(
+            "aria-label",
+            "Hide password"
+        );
+
+    } else {
+
+        field.type = "password";
+
+        icon.classList.remove("bi-eye-slash");
+        icon.classList.add("bi-eye");
+
+        button.setAttribute(
+            "aria-label",
+            "Show password"
+        );
+
+    }
+
+}
+
+</script>
+
+{% endblock %}

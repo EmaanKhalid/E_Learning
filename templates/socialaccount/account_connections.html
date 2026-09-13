@@ -1,0 +1,155 @@
+{% extends 'base.html' %}
+{% load socialaccount %}
+
+{% block title %}
+Account Connections
+{% endblock %}
+
+{% block content %}
+
+<div class="auth-page">
+
+    <div class="auth-card">
+
+        <!-- =========================
+             HEADER
+        ========================== -->
+
+        <div class="auth-header">
+
+            <div class="auth-icon">
+                <i class="bi bi-link-45deg"></i>
+            </div>
+
+            <h2>Account Connections</h2>
+
+            <p>
+                Manage the accounts connected to your E-Learning account.
+            </p>
+
+        </div>
+
+
+        <!-- =========================
+             MESSAGES
+        ========================== -->
+
+        {% if messages %}
+
+            {% for message in messages %}
+
+                <div class="auth-success">
+                    {{ message }}
+                </div>
+
+            {% endfor %}
+
+        {% endif %}
+
+
+        <!-- =========================
+             FORM ERRORS
+        ========================== -->
+
+        {% if form.non_field_errors %}
+
+            <div class="auth-error">
+                {{ form.non_field_errors }}
+            </div>
+
+        {% endif %}
+
+
+        <!-- =========================
+             GOOGLE CONNECTION
+        ========================== -->
+
+        <div class="connection-item">
+
+            <div class="connection-info">
+
+                <div class="connection-icon">
+                    <i class="bi bi-google"></i>
+                </div>
+
+                <div>
+
+                    <h4>Google</h4>
+
+                    {% if google_account %}
+
+                        <p>
+                            Connected as {{ google_account.extra_data.email|default:google_account.uid }}
+                        </p>
+
+                    {% else %}
+
+                        <p>
+                            Connect your Google account for easier sign in.
+                        </p>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+
+            <div class="connection-action">
+
+                {% if google_account %}
+
+                    <form method="POST">
+
+                        {% csrf_token %}
+
+                        {{ form.account }}
+
+                        <button
+                            type="submit"
+                            class="connection-btn connection-disconnect-btn"
+                        >
+                            <i class="bi bi-x-circle"></i>
+                            Disconnect
+                        </button>
+
+                    </form>
+
+                {% else %}
+
+                    <a
+                        href="{% provider_login_url 'google' process='connect' %}"
+                        class="connection-btn"
+                    >
+                        <i class="bi bi-google"></i>
+                        Connect
+                    </a>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+
+        <!-- =========================
+             FOOTER
+        ========================== -->
+
+        <div class="auth-footer">
+
+            <a href="{% url 'edit_profile' %}">
+
+                <i class="bi bi-arrow-left"></i>
+
+                Back to Account Settings
+
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

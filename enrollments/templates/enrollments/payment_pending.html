@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+
+{% block title %}
+Payment
+{% endblock %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <div class="row justify-content-center">
+
+        <div class="col-md-7 col-lg-6">
+
+            <div class="card shadow-sm border-0">
+
+                <div class="card-body p-4 p-md-5 text-center">
+
+                    <div class="mb-4">
+                        <i class="bi bi-credit-card fs-1 text-primary"></i>
+                    </div>
+
+                    <h2 class="mb-3">
+                        Complete Your Purchase
+                    </h2>
+
+                    <p class="text-muted mb-4">
+                        You are about to purchase the following course:
+                    </p>
+
+                    <h4 class="mb-4">
+                        {{ payment.course.title }}
+                    </h4>
+
+                    <div class="border rounded p-3 mb-4">
+
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>Course</span>
+                            <strong>{{ payment.course.title }}</strong>
+                        </div>
+
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>Amount</span>
+                            <strong>
+                                ${{ payment.amount }}
+                            </strong>
+                        </div>
+
+                        <div class="d-flex justify-content-between">
+                            <span>Status</span>
+                            <span class="badge bg-warning text-dark">
+                                {{ payment.get_status_display }}
+                            </span>
+                        </div>
+
+                    </div>
+
+                    <button
+                        type="button"
+                        class="btn btn-primary w-100"
+                        disabled
+                    >
+                        <i class="bi bi-lock-fill"></i>
+                        Proceed to Secure Payment
+                    </button>
+
+                    <p class="text-muted small mt-3 mb-0">
+                        Your enrollment will be activated after
+                        successful payment.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

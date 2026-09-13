@@ -19,6 +19,52 @@ class Enrollment(models.Model):
             )
         ]
 
+class Payment(models.Model):
+    PAYMENT_STATUS_CHOICES = [
+        ("pending", "Pending"),
+        ("paid", "Paid"),
+        ("failed", "Failed"),
+        ("cancelled", "Cancelled")
+    ]
+
+    student = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name="payments"
+    )
+    course = models.ForeignKey(
+        Course,
+        on_delete=models.CASCADE,
+        related_name="payments"
+    )
+    amount = models.DecimalField(
+        max_digits=10,
+        decimal_places=2
+    )
+    currency = models.CharField(
+        max_length=3,
+        default="USD"
+    )
+    status = models.CharField(
+        max_length=20,
+        choices=PAYMENT_STATUS_CHOICES,
+        default="pending"
+    )
+    payment_reference = models.CharField(
+        max_length=255,
+        blank=True,
+        null=True
+    )
+    created_at = models.DateTimeField(
+        auto_now_add=True
+    )
+    updated_at = models.DateTimeField(
+        auto_now=True
+    )
+
+    def __str__(self):
+        return f"{self.student.username} - {self.course.title} - {self.amount} {self.currency}"
+
 class LessonProgress(models.Model):
     student = models.ForeignKey(User, on_delete= models.CASCADE)
     lesson = models.ForeignKey(Lesson, on_delete= models.CASCADE)

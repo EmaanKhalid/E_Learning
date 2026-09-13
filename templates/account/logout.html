@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Sign Out
+{% endblock %}
+
+{% block content %}
+
+<div class="auth-page">
+
+    <div class="auth-card">
+
+        <!-- =========================
+             HEADER
+        ========================== -->
+
+        <div class="auth-header">
+
+            <div class="auth-icon">
+                <i class="bi bi-box-arrow-right"></i>
+            </div>
+
+            <h1>Sign Out</h1>
+
+            <p>
+                Are you sure you want to sign out?
+            </p>
+
+        </div>
+
+
+        <!-- =========================
+             SIGN OUT FORM
+        ========================== -->
+
+        <form method="POST" action="{% url 'account_logout' %}">
+
+            {% csrf_token %}
+
+            <button
+                type="submit"
+                class="auth-submit-btn"
+            >
+                <i class="bi bi-box-arrow-right me-2"></i>
+                Sign Out
+            </button>
+
+        </form>
+
+
+        <!-- =========================
+             CANCEL
+        ========================== -->
+
+        <div class="auth-footer">
+
+            <a
+                href="{% url 'dashboard' %}"
+                class="auth-back-link"
+            >
+                <i class="bi bi-arrow-left me-1"></i>
+                Back to Dashboard
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
