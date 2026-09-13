@@ -85,17 +85,15 @@ class AccountAdapter(DefaultAccountAdapter):
         """
         Allow duplicate usernames.
 
-        We still let Allauth validate the username format and blacklist,
-        but we do not check whether another user already has this username.
+        Allauth still validates the username format and blacklist,
+        but database uniqueness is skipped.
         """
 
-        username = username.strip()
+        username = (username or "").strip()
 
         if not username:
-            raise self.validation_error("username_required")
+            return username
 
-        # Run Allauth's username validators/blacklist checks,
-        # but deliberately skip its database uniqueness check.
         return super().clean_username(
             username,
             shallow=True
