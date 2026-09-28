@@ -11,6 +11,7 @@ from .utils import create_and_send_otp
 from allauth.account.models import EmailAddress
 from allauth.socialaccount.models import SocialAccount
 from allauth.socialaccount.forms import DisconnectForm
+from django.core.mail import EmailMultiAlternatives
 
 
 # Create your views here.
@@ -29,6 +30,104 @@ def dashboard(request):
         {"enrollments": enrollments}
     )
 
+def send_registration_confirmation_email(user):
+    subject = "E-Learning Account Registration Successful"
+
+    student_name = (
+        user.get_full_name()
+        or user.username
+    )
+
+    html_message = f"""
+    <html>
+    <body style="font-family: Arial, sans-serif; color: #333;">
+        <div style="max-width: 700px; margin: auto; padding: 30px;
+                    border: 1px solid #ddd; border-radius: 8px;">
+
+            <h2 style="color: #0d6efd;">
+                E-Learning Website
+            </h2>
+
+            <h3>Account Registration Successful</h3>
+
+            <p>
+                Dear <strong>{student_name}</strong>,
+            </p>
+
+            <p>
+                Your E-Learning account has been successfully created
+                and verified.
+            </p>
+
+            <div style="background: #f8f9fa; padding: 20px;
+                        border-radius: 6px; margin: 20px 0;">
+
+                <p>
+                    <strong>Username:</strong>
+                    {user.username}
+                </p>
+
+                <p>
+                    <strong>Email:</strong>
+                    {user.email}
+                </p>
+
+                <p>
+                    <strong>Account Status:</strong>
+                    <span style="color: green;">
+                        Verified
+                    </span>
+                </p>
+
+            </div>
+
+            <p>
+                You can now sign in to your account and access
+                the available courses.
+            </p>
+
+            <p>
+                Thank you for joining E-Learning Website.
+            </p>
+
+            <hr>
+
+            <p style="color: #777; font-size: 13px;">
+                This is an automated account registration confirmation email.
+            </p>
+
+        </div>
+    </body>
+    </html>
+    """
+
+    text_message = f"""
+E-Learning Website
+
+Account Registration Successful
+
+Dear {student_name},
+
+Your E-Learning account has been successfully created and verified.
+
+Username: {user.username}
+Email: {user.email}
+Account Status: Verified
+
+You can now sign in to your account and access the available courses.
+
+Thank you for joining E-Learning Website.
+"""
+
+    email = EmailMultiAlternatives(
+        subject=subject,
+        body=text_message,
+        from_email=None,
+        to=[user.email]
+    )
+
+    email.attach_alternative(html_message, "text/html")
+    email.send(fail_silently=False)
 
 def verify_otp(request):
     """
@@ -105,6 +204,8 @@ def verify_otp(request):
 
         user.is_active = True
         user.save(update_fields=["is_active"])
+
+        send_registration_confirmation_email(user)
 
         # ==========================================
         # HANDLE EMAIL CHANGE
@@ -431,9 +532,11 @@ def change_email(request):
     )
 
 @login_required
+@login_required
 def change_password(request):
     """
-    Allow the logged-in user to change their password.
+    Allow the logged-in user to change their password
+    and receive a confirmation email.
     """
 
     if request.method == "POST":
@@ -445,9 +548,111 @@ def change_password(request):
         if form.is_valid():
             form.save()
 
+            # Send password change confirmation email
+            student_name = (
+                request.user.get_full_name()
+                or request.user.username
+            )
+
+            subject = "Your Password Has Been Changed"
+
+            html_message = f"""
+            <html>
+            <body style="font-family: Arial, sans-serif; color: #333;">
+                <div style="max-width: 700px; margin: auto; padding: 30px;
+                            border: 1px solid #ddd; border-radius: 8px;">
+
+                    <h2 style="color: #0d6efd;">
+                        E-Learning Website
+                    </h2>
+
+                    <h3>Password Changed Successfully</h3>
+
+                    <p>
+                        Dear <strong>{student_name}</strong>,
+                    </p>
+
+                    <p>
+                        Your E-Learning account password has been
+                        changed successfully.
+                    </p>
+
+                    <div style="background: #f8f9fa; padding: 20px;
+                                border-radius: 6px; margin: 20px 0;">
+
+                        <p>
+                            <strong>Username:</strong>
+                            {request.user.username}
+                        </p>
+
+                        <p>
+                            <strong>Email:</strong>
+                            {request.user.email}
+                        </p>
+
+                        <p>
+                            <strong>Status:</strong>
+                            <span style="color: green;">
+                                Password Changed
+                            </span>
+                        </p>
+
+                    </div>
+
+                    <p>
+                        If you made this change, no further action is required.
+                    </p>
+
+                    <p>
+                        If you did not change your password, please contact
+                        support immediately.
+                    </p>
+
+                    <hr>
+
+                    <p style="color: #777; font-size: 13px;">
+                        This is an automated password change confirmation email.
+                    </p>
+
+                </div>
+            </body>
+            </html>
+            """
+
+            text_message = f"""
+E-Learning Website
+
+Password Changed Successfully
+
+Dear {student_name},
+
+Your E-Learning account password has been changed successfully.
+
+Username: {request.user.username}
+Email: {request.user.email}
+
+If you made this change, no further action is required.
+
+If you did not change your password, please contact support immediately.
+
+Regards,
+E-Learning Website Team
+"""
+
+            email = EmailMultiAlternatives(
+                subject=subject,
+                body=text_message,
+                from_email=None,
+                to=[request.user.email]
+            )
+
+            email.attach_alternative(html_message, "text/html")
+            email.send(fail_silently=False)
+
             messages.success(
                 request,
-                "Your password has been changed successfully."
+                "Your password has been changed successfully. "
+                "A confirmation email has been sent to your inbox."
             )
 
             return redirect("change_password")

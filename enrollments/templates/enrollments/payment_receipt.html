@@ -1,0 +1,205 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Payment Receipt
+{% endblock %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <div class="receipt-card">
+
+        <!-- Header -->
+        <div class="receipt-header">
+            <div>
+                <h2 class="mb-1">E-Learning Website</h2>
+                <p class="mb-0">Payment Receipt</p>
+            </div>
+
+            <div class="text-end">
+                <span class="badge bg-success">PAID</span>
+            </div>
+        </div>
+
+        <hr>
+
+        <!-- Receipt Information -->
+        <div class="row mb-4">
+
+            <div class="col-md-6">
+                <h6 class="text-muted">Receipt Information</h6>
+
+                <p class="mb-1">
+                    <strong>Receipt No:</strong>
+                    REC-{{ payment.id|stringformat:"06d" }}
+                </p>
+
+                <p class="mb-1">
+                    <strong>Payment Date:</strong>
+                    {{ payment.created_at|date:"F d, Y" }}
+                </p>
+
+                <p class="mb-0">
+                    <strong>Status:</strong>
+                    <span class="text-success">Paid</span>
+                </p>
+            </div>
+
+            <div class="col-md-6">
+                <h6 class="text-muted">Student Information</h6>
+
+                <p class="mb-1">
+                    <strong>Name:</strong>
+                    {{ payment.student.get_full_name|default:payment.student.username }}
+                </p>
+
+                <p class="mb-0">
+                    <strong>Email:</strong>
+                    {{ payment.student.email }}
+                </p>
+            </div>
+
+        </div>
+
+        <!-- Course Details -->
+        <h6 class="text-muted">Course Details</h6>
+
+        <div class="table-responsive mb-4">
+
+            <table class="table table-bordered">
+
+                <thead>
+                    <tr>
+                        <th>Course</th>
+                        <th class="text-end">Amount</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr>
+                        <td>{{ payment.course.title }}</td>
+
+                        <td class="text-end">
+                            {{ payment.currency|upper }}
+                            {{ payment.amount }}
+                        </td>
+                    </tr>
+                </tbody>
+
+            </table>
+
+        </div>
+
+        <!-- Total -->
+        <div class="receipt-total">
+
+            <span>Total Paid</span>
+
+            <strong>
+                {{ payment.currency|upper }}
+                {{ payment.amount }}
+            </strong>
+
+        </div>
+
+        <!-- Stripe Reference -->
+       <!-- {% if payment.payment_reference %}
+            <div class="mt-4">
+
+                <h6 class="text-muted">Payment Reference</h6>
+
+                <p class="small text-break mb-0">
+                    {{ payment.payment_reference }}
+                </p>
+            
+            </div>
+        {% endif %} -->
+
+        <hr>
+
+        <!-- Footer -->
+        <div class="text-center">
+
+            <p class="text-muted mb-3">
+                Thank you for your purchase.
+            </p>
+
+            <button
+                type="button"
+                class="btn btn-primary"
+                onclick="window.print()"
+            >
+                <i class="bi bi-printer"></i>
+                Print Receipt
+            </button>
+
+            <a
+                href="{% url 'payment_history' %}"
+                class="btn btn-outline-secondary ms-2"
+            >
+                Back to Payment History
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+<style>
+
+.receipt-card {
+    max-width: 850px;
+    margin: 0 auto;
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 35px;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.08);
+}
+
+.receipt-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.receipt-header h2 {
+    font-weight: 700;
+}
+
+.receipt-total {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #f8f9fa;
+    padding: 18px 20px;
+    border-radius: 8px;
+    font-size: 18px;
+}
+
+.receipt-total strong {
+    font-size: 22px;
+}
+
+@media print {
+
+    body {
+        background: white !important;
+    }
+
+    .receipt-card {
+        box-shadow: none;
+        max-width: 100%;
+        padding: 0;
+    }
+
+    .btn {
+        display: none !important;
+    }
+
+}
+
+</style>
+
+{% endblock %}

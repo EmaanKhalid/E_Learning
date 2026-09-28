@@ -32,6 +32,7 @@ Payment History
                                 <th>Status</th>
                                 <th>Payment Reference</th>
                                 <th>Date</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
 
@@ -84,16 +85,56 @@ Payment History
 
                                     <td>
                                         {% if payment.payment_reference %}
-                                            {{ payment.payment_reference }}
+
+                                            <span class="text-break">
+                                                {{ payment.payment_reference }}
+                                            </span>
+
                                         {% else %}
+
                                             <span class="text-muted">
                                                 —
                                             </span>
+
                                         {% endif %}
                                     </td>
 
                                     <td>
                                         {{ payment.created_at|date:"M d, Y" }}
+                                    </td>
+
+                                    <td>
+
+                                        {% if payment.status == "paid" %}
+
+                                            <div class="d-flex gap-2 flex-wrap">
+
+                                                <a
+                                                    href="{% url 'payment_receipt' payment.id %}"
+                                                    class="btn btn-sm btn-outline-primary"
+                                                >
+                                                    <i class="bi bi-receipt"></i>
+                                                    View Receipt
+                                                </a>
+
+                                                <a
+                                                    href="{% url 'payment_invoice' payment.id %}"
+                                                    class="btn btn-sm btn-outline-secondary"
+                                                >
+                                                    <i class="bi bi-file-earmark-text"></i>
+                                                    View Invoice
+                                                </a>
+
+                                            </div>
+
+                                        {% else %}
+
+                                            <span class="text-muted">
+                                                —
+                                            </span>
+
+                                        {% endif %}
+
                                     </td>
 
                                 </tr>

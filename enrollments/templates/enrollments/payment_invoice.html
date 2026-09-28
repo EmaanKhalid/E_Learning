@@ -1,0 +1,327 @@
+{% extends "base.html" %}
+
+{% block title %}
+Invoice
+{% endblock %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <div class="invoice-card">
+
+        <!-- Invoice Header -->
+        <div class="invoice-header">
+
+            <div>
+                <h1>E-Learning Website</h1>
+
+            </div>
+
+            <div class="text-end">
+                <h3>INVOICE</h3>
+
+                <p class="mb-1">
+                    <strong>
+                        Invoice No:
+                    </strong>
+                    INV-{{ payment.id|stringformat:"06d" }}
+                </p>
+
+                <p class="mb-0">
+                    <strong>
+                        Date:
+                    </strong>
+                    {{ payment.created_at|date:"F d, Y" }}
+                </p>
+            </div>
+
+        </div>
+
+        <hr>
+
+        <!-- Seller and Customer -->
+        <div class="row invoice-section">
+
+            <div class="col-md-6">
+
+                <h6 class="section-title">
+                    From
+                </h6>
+
+                <p class="mb-1">
+                    <strong>E-Learning Website</strong>
+                </p>
+
+                <p class="text-muted mb-0">
+                    Online Learning Platform
+                </p>
+
+            </div>
+
+            <div class="col-md-6">
+
+                <h6 class="section-title">
+                    Bill To
+                </h6>
+
+                <p class="mb-1">
+                    <strong>
+                        {{ payment.student.get_full_name|default:payment.student.username }}
+                    </strong>
+                </p>
+
+                <p class="text-muted mb-0">
+                    {{ payment.student.email }}
+                </p>
+
+            </div>
+
+        </div>
+
+        <!-- Course Information -->
+        <div class="invoice-section">
+
+            <h6 class="section-title">
+                Course Details
+            </h6>
+
+            <div class="table-responsive">
+
+                <table class="table table-bordered invoice-table">
+
+                    <thead>
+                        <tr>
+                            <th>Description</th>
+                            <th class="text-center">
+                                Quantity
+                            </th>
+                            <th class="text-end">
+                                Unit Price
+                            </th>
+                            <th class="text-end">
+                                Amount
+                            </th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        <tr>
+
+                            <td>
+                                {{ payment.course.title }}
+                            </td>
+
+                            <td class="text-center">
+                                1
+                            </td>
+
+                            <td class="text-end">
+                                {{ payment.currency|upper }}
+                                {{ payment.amount }}
+                            </td>
+
+                            <td class="text-end">
+                                {{ payment.currency|upper }}
+                                {{ payment.amount }}
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+        <!-- Invoice Summary -->
+        <div class="row justify-content-end">
+
+            <div class="col-md-5">
+
+                <div class="invoice-summary">
+
+                    <div class="summary-row">
+                        <span>Subtotal</span>
+
+                        <strong>
+                            {{ payment.currency|upper }}
+                            {{ payment.amount }}
+                        </strong>
+                    </div>
+
+                    <div class="summary-row">
+                        <span>Tax</span>
+
+                        <strong>
+                            {{ payment.currency|upper }}
+                            0.00
+                        </strong>
+                    </div>
+
+                    <hr>
+
+                    <div class="summary-row total-row">
+                        <span>Total</span>
+
+                        <strong>
+                            {{ payment.currency|upper }}
+                            {{ payment.amount }}
+                        </strong>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Payment Information -->
+        <div class="invoice-section">
+
+            <h6 class="section-title">
+                Payment Information
+            </h6>
+
+            <p class="mb-1">
+                <strong>Status:</strong>
+
+                <span class="badge bg-success">
+                    PAID
+                </span>
+            </p>
+
+           <!-- {% if payment.payment_reference %}
+
+                <p class="mb-0">
+                    <strong>Payment Reference:</strong>
+
+                    <span class="text-break">
+                        {{ payment.payment_reference }}
+                    </span>
+                </p>
+
+            {% endif %} -->
+
+        </div>
+
+        <hr>
+
+        <!-- Footer -->
+        <div class="invoice-footer text-center">
+
+            <p class="text-muted mb-3">
+                Thank you for choosing E-Learning Website.
+            </p>
+
+            <button
+                type="button"
+                class="btn btn-primary"
+                onclick="window.print()"
+            >
+                <i class="bi bi-printer"></i>
+                Print Invoice
+            </button>
+
+            <a
+                href="{% url 'payment_history' %}"
+                class="btn btn-outline-secondary ms-2"
+            >
+                Back to Payment History
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+<style>
+
+.invoice-card {
+    max-width: 950px;
+    margin: 0 auto;
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 40px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.invoice-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.invoice-header h1 {
+    font-weight: 700;
+    margin-bottom: 5px;
+}
+
+.invoice-header h3 {
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+.invoice-section {
+    margin-top: 30px;
+}
+
+.section-title {
+    color: #555;
+    font-size: 15px;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.invoice-table th {
+    background: #f8f9fa;
+    font-weight: 600;
+}
+
+.invoice-summary {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+    margin-top: 20px;
+}
+
+.summary-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.total-row {
+    font-size: 20px;
+}
+
+.invoice-footer {
+    margin-top: 25px;
+}
+
+@media print {
+
+    body {
+        background: white !important;
+    }
+
+    .invoice-card {
+        max-width: 100%;
+        box-shadow: none;
+        padding: 0;
+    }
+
+    .btn {
+        display: none !important;
+    }
+
+}
+
+</style>
+
+{% endblock %}

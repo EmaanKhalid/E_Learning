@@ -51,27 +51,6 @@ def enroll_course(request, pk):
         )
         return redirect("course_detail", pk=pk)
 
-    payment = Payment.objects.filter(
-        student=student,
-        course=course,
-        status="pending"
-    ).first()
-
-    if payment:
-        messages.warning(
-            request,
-            "You already have a pending payment for this course."
-        )
-        return redirect("course_detail", pk=pk)
-
-    payment = Payment.objects.create(
-        student=student,
-        course=course,
-        amount=course.price,
-        currency="USD",
-        status="pending"
-    )
-
     stripe.api_key = settings.STRIPE_SECRET_KEY
 
     checkout_session = stripe.checkout.Session.create(
@@ -98,16 +77,13 @@ def enroll_course(request, pk):
             "/enrollments/payment/cancel/"
         ),
         metadata={
-            "payment_id": str(payment.id),
             "course_id": str(course.id),
             "student_id": str(student.id)
         }
     )
 
-    payment.payment_reference = checkout_session.id
-    payment.save(update_fields=["payment_reference"])
-
     return redirect(checkout_session.url)
+
 @login_required
 def my_courses(request):
     enrollments = Enrollment.objects.filter(student=request.user)

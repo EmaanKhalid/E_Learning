@@ -14,6 +14,11 @@ path(
     name="payment_history"
 ),
 path(
+    "payment/<int:payment_id>/receipt/",
+    views.payment_receipt,
+    name="payment_receipt"
+),
+path(
     "payment/success/",
     views.payment_success,
     name="payment_success"
@@ -22,5 +27,10 @@ path(
     "payment/cancel/",
     views.payment_cancel,
     name="payment_cancel"
+),
+path(
+    "payment/<int:payment_id>/invoice/",
+    views.payment_invoice,
+    name="payment_invoice"
 ),
 ]
