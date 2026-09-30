@@ -34,13 +34,20 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 DEBUG = os.environ.get('DEBUG', 'False') == 'True'
 
 
-ALLOWED_HOSTS = [
+'''ALLOWED_HOSTS = [
     "elearningwebsite-production.up.railway.app",
+    "localhost",
+    "127.0.0.1",
+]'''
+
+ALLOWED_HOSTS = [
+    "e-learning-6eu3.onrender.com",
     "localhost",
     "127.0.0.1",
 ]
 CSRF_TRUSTED_ORIGINS = [
-    "https://elearningwebsite-production.up.railway.app",
+    "https://e-learning-6eu3.onrender.com/",
+   # "https://elearningwebsite-production.up.railway.app",
 ]
 
 
