@@ -34,20 +34,20 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 DEBUG = os.environ.get('DEBUG', 'False') == 'True'
 
 
-'''ALLOWED_HOSTS = [
+ALLOWED_HOSTS = [
     "elearningwebsite-production.up.railway.app",
     "localhost",
     "127.0.0.1",
-]'''
+]
 
-ALLOWED_HOSTS = [
+'''ALLOWED_HOSTS = [
     "e-learning-6eu3.onrender.com",
     "localhost",
     "127.0.0.1",
-]
+]'''
 CSRF_TRUSTED_ORIGINS = [
-    "https://e-learning-6eu3.onrender.com/",
-   # "https://elearningwebsite-production.up.railway.app",
+    
+    "https://elearningwebsite-production.up.railway.app",
 ]
 
 
@@ -69,7 +69,7 @@ INSTALLED_APPS = [
     'courses',
     'enrollments',
     'lessons',
-    #'anymail',
+    'anymail',
 ]
 
 MIDDLEWARE = [
@@ -238,7 +238,9 @@ ANYMAIL = {
 
 DEFAULT_FROM_EMAIL = os.environ.get("DEFAULT_FROM_EMAIL")'''
 
-EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+
+#####
+'''EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 
 EMAIL_HOST = os.environ.get("EMAIL_HOST")
 EMAIL_PORT = int(os.environ.get("EMAIL_PORT", 587))
@@ -250,7 +252,18 @@ EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
 DEFAULT_FROM_EMAIL = os.environ.get(
     "DEFAULT_FROM_EMAIL",
     EMAIL_HOST_USER
-)
+)'''
+
+# Brevo API email configuration
+# Uses HTTPS/API instead of SMTP.
+EMAIL_BACKEND = "anymail.backends.brevo.EmailBackend"
+
+ANYMAIL = {
+    "BREVO_API_KEY": os.environ.get("BREVO_API_KEY"),
+}
+
+DEFAULT_FROM_EMAIL = os.environ.get("DEFAULT_FROM_EMAIL")
+
 
 # Stripe Sandbox
 STRIPE_PUBLISHABLE_KEY = os.environ.get("STRIPE_PUBLISHABLE_KEY")
